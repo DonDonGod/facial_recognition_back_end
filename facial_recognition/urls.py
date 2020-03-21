@@ -33,13 +33,5 @@ urlpatterns = [
     path('dashboard/delUser', views.delUser),
     path('dashboard/delImg', views.delImg),
 
-
-
-    # test
-    # path('calpage/', views.calPage),
-    # path('cal', views.calculate),
-    # path('callist/',views.calList),
-    # path('callist/del', views.deldata)
-
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 # 47811160+FuZixin@users.noreply.github.com

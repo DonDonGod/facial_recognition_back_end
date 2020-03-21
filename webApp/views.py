@@ -1,8 +1,8 @@
 from django.shortcuts import render
+from django.shortcuts import redirect
 from django.http import HttpResponse
 
-from webApp.models import cal
-from webApp.models import user
+from webApp.models import USER
 from webApp.models import IMG
 
 
@@ -20,13 +20,13 @@ def dashboard(request):
 
 def addUser(request):
     if request.POST:
-        a = request.POST['admin']
-        b = request.POST['username']
-        c = request.POST['password']
-        user.objects.create(admin=a, username=b, password=c)
+        a = request.POST.get('admin',None)
+        b = request.POST.get('username',None)
+        c = request.POST.get('password',None)
+        USER.objects.create(admin=a, username=b, password=c)
         return render(request, 'result.html', context={'data': b})
     else:
-        HttpResponse("Go to dashboard first")
+        return redirect('http://127.0.0.1:8000/dashboard')
 
 def uploadImg(request):
     if request.method == 'POST':
@@ -35,42 +35,25 @@ def uploadImg(request):
             name = request.FILES.get('img').name
         )
         new_img.save()
-    return render(request, 'homepage.html')
+        return render(request, 'homepage.html')
+    else:
+        return redirect('http://127.0.0.1:8000/homepage')
 
 def showImg(request):
-    imgs = IMG.objects.all()
-    content = {'imgs':imgs}
-    for i in imgs:
-        print (i.img.url)
-    return render(request, 'dashboard.html', content)
+    if request.method == 'POST':
+        imgs = IMG.objects.all()
+        content = {'imgs':imgs}
+        for i in imgs:
+            print (i.img.url)
+        return render(request, 'dashboard.html', content)
+    else:
+        return redirect('http://127.0.0.1:8000/dashboard')
 
 def delUser(request):
-    user.objects.all().delete()
+    USER.objects.all().delete()
     return HttpResponse('All users are deleted')
 
 def delImg(request):
     IMG.objects.all().delete()
     return HttpResponse('All images are deleted')
 
-
-
-# Test
-# def calPage(request):
-#     return render(request,'cal.html')
-# def calculate(request):
-#     if request.POST:
-#         a = request.POST['valueA']
-#         b = request.POST['valueB']
-#         sum = int(a)+int(b)
-#         cal.objects.create(valueA=a, valueB=b,result=sum)
-#         return render(request, 'result.html', context={'data':sum})
-#     else:
-#         HttpResponse("Go to homepage first")
-# def calList(request):
-#     data = cal.objects.all()
-#     # for data in data:
-#     #     print(data.valueA, data.valueB, data.result)
-#     return render(request, "cal_list.html", context={"data": data})
-# def deldata(request):
-#     cal.objects.all().delete()
-#     return HttpResponse('All data deleted')

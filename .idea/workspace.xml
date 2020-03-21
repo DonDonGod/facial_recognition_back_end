@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-
     <list default="true" id="a03d2299-a58b-4570-bc71-a6b96c5d253d" name="Default Changelist" comment="" />
-
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -23,18 +21,18 @@
     <expand>
       <path>
         <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
-        <item name="db.sqlite3" type="feb32156:DbDataSourceImpl" />
+        <item name="fyp@localhost" type="feb32156:DbDataSourceImpl" />
       </path>
       <path>
         <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
-        <item name="db.sqlite3" type="feb32156:DbDataSourceImpl" />
+        <item name="fyp@localhost" type="feb32156:DbDataSourceImpl" />
         <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
       </path>
       <path>
         <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
-        <item name="db.sqlite3" type="feb32156:DbDataSourceImpl" />
+        <item name="fyp@localhost" type="feb32156:DbDataSourceImpl" />
         <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
-        <item name="main: schema" type="981a47c2:SqliteImplModel$Schema" />
+        <item name="fyp: schema" type="76f4a085:MysqlImplModel$Schema" />
       </path>
     </expand>
     <select />
@@ -42,7 +40,6 @@
   <component name="DjangoConsoleOptions" custom-start-script="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)">
     <option name="myCustomStartScript" value="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)" />
   </component>
-
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
@@ -51,25 +48,28 @@
     </option>
   </component>
   <component name="ProjectId" id="1ZL1PNte2uL2X61iIZPvNU3NXEs" />
-
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showExcludedFiles" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
-    <property name="DatabaseDriversLRU" value="mysql&#10;sqlite" />
+    <property name="DatabaseDriversLRU" value="sqlite&#10;mysql" />
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../git_project/facial_recognition_back_end" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
     <property name="node.js.path.for.package.tslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\STUDY\Degree Project\project\backend\facial_recognition" />
+    </key>
   </component>
   <component name="RunManager">
     <configuration name="facial_recognition" type="Python.DjangoServer" factoryName="Django server">
@@ -112,6 +112,8 @@
       <workItem from="1584605557944" duration="28000" />
       <workItem from="1584605604201" duration="1535000" />
       <workItem from="1584607233993" duration="27096000" />
+      <workItem from="1584793060699" duration="9138000" />
+      <workItem from="1584802590634" duration="289000" />
     </task>
     <servers />
   </component>
@@ -119,38 +121,38 @@
     <option name="version" value="1" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="808" y="179" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1584613828120">
+    <state x="808" y="179" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1584799648390">
       <screen x="0" y="0" width="1620" height="1040" />
     </state>
-    <state x="808" y="179" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1620.1040@0.0.1620.1040" timestamp="1584613828120" />
-    <state x="996" y="275" key="FileChooserDialogImpl" timestamp="1584613795459">
+    <state x="808" y="179" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1620.1040@0.0.1620.1040" timestamp="1584799648389" />
+    <state x="996" y="275" key="FileChooserDialogImpl" timestamp="1584802607833">
       <screen x="0" y="0" width="1620" height="1040" />
     </state>
-    <state x="996" y="275" key="FileChooserDialogImpl/0.0.1620.1040@0.0.1620.1040" timestamp="1584613795459" />
-    <state width="1578" height="280" key="GridCell.Tab.0.bottom" timestamp="1584778097470">
+    <state x="996" y="275" key="FileChooserDialogImpl/0.0.1620.1040@0.0.1620.1040" timestamp="1584802607833" />
+    <state width="767" height="280" key="GridCell.Tab.0.bottom" timestamp="1584802380884">
       <screen x="0" y="0" width="1620" height="1040" />
     </state>
-    <state width="1578" height="280" key="GridCell.Tab.0.bottom/0.0.1620.1040@0.0.1620.1040" timestamp="1584778097470" />
-    <state width="1578" height="280" key="GridCell.Tab.0.center" timestamp="1584778097470">
+    <state width="767" height="280" key="GridCell.Tab.0.bottom/0.0.1620.1040@0.0.1620.1040" timestamp="1584802380884" />
+    <state width="767" height="280" key="GridCell.Tab.0.center" timestamp="1584802380884">
       <screen x="0" y="0" width="1620" height="1040" />
     </state>
-    <state width="1578" height="280" key="GridCell.Tab.0.center/0.0.1620.1040@0.0.1620.1040" timestamp="1584778097470" />
-    <state width="1578" height="280" key="GridCell.Tab.0.left" timestamp="1584778097470">
+    <state width="767" height="280" key="GridCell.Tab.0.center/0.0.1620.1040@0.0.1620.1040" timestamp="1584802380884" />
+    <state width="767" height="280" key="GridCell.Tab.0.left" timestamp="1584802380883">
       <screen x="0" y="0" width="1620" height="1040" />
     </state>
-    <state width="1578" height="280" key="GridCell.Tab.0.left/0.0.1620.1040@0.0.1620.1040" timestamp="1584778097470" />
-    <state width="1578" height="280" key="GridCell.Tab.0.right" timestamp="1584778097470">
+    <state width="767" height="280" key="GridCell.Tab.0.left/0.0.1620.1040@0.0.1620.1040" timestamp="1584802380883" />
+    <state width="767" height="280" key="GridCell.Tab.0.right" timestamp="1584802380884">
       <screen x="0" y="0" width="1620" height="1040" />
     </state>
-    <state width="1578" height="280" key="GridCell.Tab.0.right/0.0.1620.1040@0.0.1620.1040" timestamp="1584778097470" />
+    <state width="767" height="280" key="GridCell.Tab.0.right/0.0.1620.1040@0.0.1620.1040" timestamp="1584802380884" />
     <state width="214" height="477" key="HiddenNamespacesPopup" timestamp="1584613736062">
       <screen x="0" y="0" width="1620" height="1040" />
     </state>
     <state width="214" height="477" key="HiddenNamespacesPopup/0.0.1620.1040@0.0.1620.1040" timestamp="1584613736062" />
-    <state x="500" y="345" key="com.intellij.ide.util.TipDialog" timestamp="1584607253441">
+    <state x="500" y="345" key="com.intellij.ide.util.TipDialog" timestamp="1584802590926">
       <screen x="0" y="0" width="1620" height="1040" />
     </state>
-    <state x="500" y="345" key="com.intellij.ide.util.TipDialog/0.0.1620.1040@0.0.1620.1040" timestamp="1584607253441" />
+    <state x="500" y="345" key="com.intellij.ide.util.TipDialog/0.0.1620.1040@0.0.1620.1040" timestamp="1584802590926" />
     <state x="6" y="193" width="637" height="801" key="find.popup" timestamp="1584607067774">
       <screen x="0" y="0" width="1620" height="1040" />
     </state>
@@ -158,8 +160,6 @@
     <state x="878" y="229" width="672" height="678" key="search.everywhere.popup" timestamp="1584642888719">
       <screen x="0" y="0" width="1620" height="1040" />
     </state>
-
     <state x="878" y="229" width="672" height="678" key="search.everywhere.popup/0.0.1620.1040@0.0.1620.1040" timestamp="1584642888719" />
-
   </component>
 </project>
