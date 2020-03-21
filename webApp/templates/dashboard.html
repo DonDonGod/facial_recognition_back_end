@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+</head>
+
+<body>
+    <h1 style="color: brown">This is Dashboard for admin </h1>
+    <h4 style="color: deeppink">Add a user (admin=0 is user, admin=1 is admin)</h4>
+    <form method="POST" action="add_user">
+        {% csrf_token %}
+        admin<input type="number" name="admin"><br>
+        username<input type="text" name="username"><br>
+        password<input type="text" name="password"><br>
+        <input type="submit" name="submit"  value="Submit">
+    </form>
+
+    <br>
+    <br>
+
+    <h4 style="color: cornflowerblue">Show the pictures in the database</h4>
+    <form method="POST" action="show">
+    <input type="submit" name="show" value="Show pictures"><br><br>
+        {% csrf_token %}
+        {% for img in imgs %}
+        <img src="{{ img.img.url }}" width="200"/>
+        {% endfor %}
+    </form>
+
+    <br>
+    <h4 style="color: cornflowerblue">Delete all data in the database</h4>
+    <form action="delUser" method="POST">
+        {% csrf_token %}
+        <input TYPE="submit" value="Delete All Users">
+    </form>
+    <br>
+    <form action="delImg" method="POST">
+        {% csrf_token %}
+        <input TYPE="submit" value="Delete All Images">
+    </form>
+
+</body>
+
+</html>

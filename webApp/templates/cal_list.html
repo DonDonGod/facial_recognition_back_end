@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+{#TEST#}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cal_List</title>
+</head>
+<body>
+
+    <table border="1">
+        <thead>
+        <tr>
+            <th>valueA</th>
+            <th>valueA</th>
+            <th>result</th>
+        </tr>
+        </thead>
+
+        {% for data in data%}
+        <tr>
+            <td>{{ data.valueA }}</td>
+            <td>{{ data.valueB }}</td>
+            <td>{{ data.result }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <form action="del" method="POST">
+        {% csrf_token %}
+        <input TYPE="submit" value="Delete">
+    </form>
+</body>
+
+</html>
