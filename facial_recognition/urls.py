@@ -15,9 +15,31 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from user_api import views
+from webApp import views
+from django.conf.urls.static import static
+from django.conf import settings
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('test_api/', views.test_api, name='test_api'),
-]
+    # path('admin/', admin.site.urls),
+    path('homepage/', views.homePage),
+    path('login/', views.login),
+
+    path('dashboard/', views.dashboard),
+    path('dashboard/add_user', views.addUser),
+
+    path('homepage/upload', views.uploadImg),
+    path('dashboard/show', views.showImg),
+
+    path('dashboard/delUser', views.delUser),
+    path('dashboard/delImg', views.delImg),
+
+
+
+    # test
+    # path('calpage/', views.calPage),
+    # path('cal', views.calculate),
+    # path('callist/',views.calList),
+    # path('callist/del', views.deldata)
+
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+# 47811160+FuZixin@users.noreply.github.com

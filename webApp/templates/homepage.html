@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Django Homepage</title>
+</head>
+<body>
+
+<h1 style="color: aquamarine">Facial Recognition</h1>
+<h2>This is the homepage of our project</h2>
+<br>
+<br>
+<h4 style="color: cornflowerblue">Upload the image to the database</h4>
+
+<form method="POST" enctype="multipart/form-data" action="upload">
+    {% csrf_token %}
+    <input type="file" name="img" value="Select images"><br>
+
+    {#预览#}
+    <img src="" height="200" alt="Image preview area..." title="preview-img"><br>
+    <script>
+      var fileInput = document.querySelector('input[type=file]'), previewImg = document.querySelector('img');
+      fileInput.addEventListener('change', function () {
+          var file = this.files[0];
+          var reader = new FileReader();
+          // 调用reader.readAsDataURL()方法，把图片转成base64
+          reader.readAsDataURL(file);
+          // 监听reader对象的的onload事件，当图片加载完成时，把base64编码賦值给预览图片
+          reader.addEventListener("load", function () {previewImg.src = reader.result;}, false);
+      }, false);
+    </script>
+
+    <button type="submit">Upload</button>
+</form>
+
+</body>
+</html>
+
+
+{#什么是base64格式？说到底就是一串字符串，形如data:image/png;base64,iVBORwO…开头的字符串#}
+{#原本在网页中嵌入一个图片是这样的<img src="photo.png">#}
+{#使用了base64格式后变成<img src="data:image/png;base64,iVBORw0...">#}
+
+{#<input type="file"><br>#}
+{#<img src="" height="200" alt="Image preview area..." title="preview-img">#}
+{#<script>#}
+{#  var fileInput = document.querySelector('input[type=file]'), previewImg = document.querySelector('img');#}
+{#  fileInput.addEventListener('change', function () {#}
+{#      var file = this.files[0];#}
+{#      var reader = new FileReader();#}
+{#      // 调用reader.readAsDataURL()方法，把图片转成base64#}
+{#      reader.readAsDataURL(file);#}
+{#      // 监听reader对象的的onload事件，当图片加载完成时，把base64编码賦值给预览图片#}
+{#      reader.addEventListener("load", function () {previewImg.src = reader.result;}, false);#}
+{#  }, false);#}
+{#</script>#}
