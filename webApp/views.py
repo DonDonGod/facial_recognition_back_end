@@ -1,11 +1,15 @@
 from django.shortcuts import render
 from django.shortcuts import redirect
 from django.http import HttpResponse
+import os
 
+from facial_recognition import settings
 from webApp.models import USER
 from webApp.models import IMG
+from webApp.face_recognize import face_recognize
 
-
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = BASE_DIR.replace('\\', '/')
 
 # Create your views here.
 
@@ -42,12 +46,22 @@ def uploadImg(request):
 def showImg(request):
     if request.method == 'POST':
         imgs = IMG.objects.all()
-        content = {'imgs':imgs}
-        for i in imgs:
-            print (i.img.url)
+        content = {'imgs': imgs}
         return render(request, 'dashboard.html', content)
     else:
         return redirect('http://127.0.0.1:8000/dashboard')
+
+# 人脸识别
+def recImg(request):
+    if request.method == 'POST':
+        imgs = IMG.objects.all()
+        for i in imgs:
+            old_path = os.path.join(BASE_DIR, 'media', i.img.name).replace('\\', '/')
+            new_path = os.path.join(BASE_DIR, 'media', i.img.name).replace('\\', '/').replace('img','new_img')
+            # print(old_path)
+            # print(new_path)
+            face_recognize(old_path, new_path)
+    return redirect('http://127.0.0.1:8000/dashboard')
 
 def delUser(request):
     USER.objects.all().delete()
