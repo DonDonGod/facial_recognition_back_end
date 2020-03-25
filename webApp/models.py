@@ -11,5 +11,10 @@ class IMG(models.Model):
     img = models.ImageField(upload_to='img')
     name = models.CharField(max_length=100)
 
+
+
+
 # python manage.py makemigrations
 # python manage.py migrate
+
+# set global time_zone='+8:00';

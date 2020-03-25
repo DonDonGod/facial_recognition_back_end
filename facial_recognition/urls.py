@@ -21,17 +21,25 @@ from django.conf import settings
 
 urlpatterns = [
     # path('admin/', admin.site.urls),
-    path('homepage/', views.homePage),
-    path('login/', views.login),
 
+    path('login/', views.login),
+    path('homepage/', views.homePage),
     path('dashboard/', views.dashboard),
+
+    # 添加用户
     path('dashboard/add_user', views.addUser),
 
+    # 上传与展示
     path('homepage/upload', views.uploadImg),
     path('dashboard/show', views.showImg),
 
+    # 识别
+    path('dashboard/rec', views.recImg),
+
+    # 删除表里数据
     path('dashboard/delUser', views.delUser),
     path('dashboard/delImg', views.delImg),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
 # 47811160+FuZixin@users.noreply.github.com
