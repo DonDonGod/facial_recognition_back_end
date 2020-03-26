@@ -25,9 +25,9 @@ python manage.py makemigrations
 python manage.py migrate
 
 #根目录下media/img储存上传的图片； media/new_img储存识别后的图片
-#先在homepage上传图片， 然后去dashborad查看，最后点recognize，可以发现media/new_img里有了识别后的图片
 
-#问题：删库只能删图片的url路由，想删本地media里的图必须手动删
+#新增：1.user户数据库的增删改查  2.上传图像后自动识别并存在media/new_img下
+
 
 
 
