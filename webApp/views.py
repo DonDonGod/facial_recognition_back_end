@@ -22,6 +22,8 @@ def login(request):
 def dashboard(request):
     return render(request, 'dashboard.html')
 
+
+
 def addUser(request):
     if request.POST:
         a = request.POST.get('admin',None)
@@ -32,6 +34,42 @@ def addUser(request):
     else:
         return redirect('http://127.0.0.1:8000/dashboard')
 
+def findUser(request):
+    username = request.POST.get('username', None)
+    result = USER.objects.filter(username = username)
+    arr = []
+    for i in result:
+        content = {'admin': i.admin, 'username': i.username, 'password': i.password}
+        arr.append(content)
+    if arr:
+        return render(request, 'dashboard.html', context={'user': arr})
+    else:
+        return render(request, 'dashboard.html', context={'user': "This user doesn't exist"})
+
+def modifyUser(request):
+    username = request.POST.get('username', None)
+    password = request.POST.get('password', None)
+    exist = USER.objects.filter(username=username)
+    if exist:
+        user = USER.objects.get(username=username)
+        user.password = password
+        user.save()
+        return render(request, 'dashboard.html', context={'mod_result': "modification complete"})
+    else:
+        return render(request, 'dashboard.html', context={'mod_result': "This user doesn't exist"})
+
+
+def deleteUser(request):
+    username = request.POST.get('username', None)
+    exist = USER.objects.filter(username = username)
+    if exist:
+        user = USER.objects.get(username = username)
+        user.delete()
+        return render(request, 'dashboard.html', context={'del_result': "deletion complete"})
+    else:
+        return render(request, 'dashboard.html', context={'del_result': "This user doesn't exist"})
+
+
 def uploadImg(request):
     if request.method == 'POST':
         new_img = IMG(
@@ -39,6 +77,11 @@ def uploadImg(request):
             name = request.FILES.get('img').name
         )
         new_img.save()
+
+        old_path = os.path.join(BASE_DIR, 'media', new_img.img.name).replace('\\', '/')
+        new_path = os.path.join(BASE_DIR, 'media', new_img.img.name).replace('\\', '/').replace('img', 'new_img')
+        face_recognize(old_path, new_path)
+
         return render(request, 'homepage.html')
     else:
         return redirect('http://127.0.0.1:8000/homepage')
@@ -63,10 +106,11 @@ def recImg(request):
             face_recognize(old_path, new_path)
     return redirect('http://127.0.0.1:8000/dashboard')
 
-def delUser(request):
+
+# 删除所有数据
+def delAllUser(request):
     USER.objects.all().delete()
     return HttpResponse('All users are deleted')
-
 def delImg(request):
     IMG.objects.all().delete()
     return HttpResponse('All images are deleted')

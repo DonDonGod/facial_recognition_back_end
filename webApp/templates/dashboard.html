@@ -7,7 +7,7 @@
 
 <body>
     <h1 style="color: brown">This is Dashboard for admin </h1>
-    <h4 style="color: deeppink">Add a user (admin=0 is user, admin=1 is admin)</h4>
+    <h4 style="color: deeppink">1. Add a user (admin=0 is user, admin=1 is admin)</h4>
     <form method="POST" action="add_user">
         {% csrf_token %}
         admin<input type="number" name="admin"><br>
@@ -17,9 +17,37 @@
     </form>
 
     <br>
+    <h4 style="color: deeppink">2. Find a user</h4>
+    <form method="POST" action="find_user">
+        {% csrf_token %}
+        username<input type="text" name="username"><br>
+        <input type="submit" name="submit"  value="Submit">
+    </form>
+    <h4>result: {{ user }}</h4>
+
+    <br>
+    <h4 style="color: deeppink">3. modify a user's password</h4>
+    <form method="POST" action="modify_user">
+        {% csrf_token %}
+        username<input type="text" name="username"><br>
+        new password<input type="text" name="password"><br>
+        <input type="submit" name="submit"  value="Submit">
+    </form>
+    <h4>result: {{ mod_result }}</h4>
+
+    <br>
+    <h4 style="color: deeppink">4. delete a user's password</h4>
+    <form method="POST" action="delete_user">
+        {% csrf_token %}
+        username<input type="text" name="username"><br>
+        <input type="submit" name="submit"  value="Submit">
+    </form>
+    <h4>result: {{ del_result }}</h4>
+
+    <br>
     <br>
 
-    <h4 style="color: cornflowerblue">Show the pictures in the database</h4>
+    <h4 style="color: cornflowerblue">1. Show the pictures in the database</h4>
     <form method="POST" action="show">
     <input type="submit" name="show" value="Show pictures"><br><br>
         {% csrf_token %}
@@ -29,11 +57,9 @@
     </form>
 
     <br>
-    <br>
-
-    <h4 style="color: cornflowerblue">Facial Recognition</h4>
+    <h4 style="color: cornflowerblue">2. Recognize all the imgs in the database</h4>
     <form method="POST" action="rec">
-    <input type="submit" name="rec" value="recognize"><br><br>
+    <input type="submit" name="rec" value="recognize all"><br><br>
         {% csrf_token %}
         {% for img in rec_imgs %}
         <img src="{{ img }}" width="200"/>
@@ -41,7 +67,8 @@
     </form>
 
     <br>
-    <h4 style="color: cornflowerblue">Delete all data in the database</h4>
+    <br>
+    <h4 style="color: crimson">Delete all data in the database</h4>
     <form action="delUser" method="POST">
         {% csrf_token %}
         <input TYPE="submit" value="Delete All Users">

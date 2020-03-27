@@ -28,16 +28,23 @@ urlpatterns = [
 
     # 添加用户
     path('dashboard/add_user', views.addUser),
+    # 查找用户
+    path('dashboard/find_user', views.findUser),
+    # 修改用户
+    path('dashboard/modify_user', views.modifyUser),
+    # 删除用户
+    path('dashboard/delete_user', views.deleteUser),
 
-    # 上传与展示
+
+    # 上传图片并识别（原图在media/img, 识别后的图在media/new_img）
     path('homepage/upload', views.uploadImg),
+    # 展示图片
     path('dashboard/show', views.showImg),
-
-    # 识别
+    # 统一识别全部图片
     path('dashboard/rec', views.recImg),
 
-    # 删除表里数据
-    path('dashboard/delUser', views.delUser),
+    # 删除全部数据
+    path('dashboard/delUser', views.delAllUser),
     path('dashboard/delImg', views.delImg),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
