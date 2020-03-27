@@ -42,6 +42,8 @@ urlpatterns = [
     path('dashboard/show', views.showImg),
     # 统一识别全部图片
     path('dashboard/rec', views.recImg),
+    # 展示所有识别后图片路径（字典）
+    path('dashboard/path', views.showPath),
 
     # 删除全部数据
     path('dashboard/delUser', views.delAllUser),

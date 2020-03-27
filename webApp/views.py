@@ -106,6 +106,21 @@ def recImg(request):
             face_recognize(old_path, new_path)
     return redirect('http://127.0.0.1:8000/dashboard')
 
+# 返回所有new_img里图片的路径
+def showPath(request):
+    if request.method == 'GET':
+        rec_path = {}
+        imgs = IMG.objects.all()
+        for new_img in imgs:
+            old_path = os.path.join(BASE_DIR, 'media', new_img.img.name).replace('\\', '/')
+            new_path = os.path.join(BASE_DIR, 'media', new_img.img.name).replace('\\', '/').replace('img', 'new_img')
+            rec_path[new_img.img.name] = new_path
+        print(rec_path)
+        return  redirect('http://127.0.0.1:8000/dashboard')
+    else:
+        return redirect('http://127.0.0.1:8000/dashboard')
+
+
 
 # 删除所有数据
 def delAllUser(request):
