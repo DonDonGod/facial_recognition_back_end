@@ -1,12 +1,15 @@
 from django.shortcuts import render
 from django.shortcuts import redirect
-from django.http import HttpResponse
+from django.http import JsonResponse, HttpResponse
 import os
+import json
 
 from facial_recognition import settings
 from webApp.models import USER
 from webApp.models import IMG
 from webApp.face_recognize import face_recognize
+from webApp.face_recognize_controller import face_predict
+from webApp.face_recognize_controller import face_train
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_DIR = BASE_DIR.replace('\\', '/')
@@ -25,14 +28,15 @@ def dashboard(request):
 
 
 def addUser(request):
-    if request.POST:
+    if request.method == 'POST':
         a = request.POST.get('admin',None)
         b = request.POST.get('username',None)
         c = request.POST.get('password',None)
         USER.objects.create(admin=a, username=b, password=c)
-        return render(request, 'result.html', context={'data': b})
+        return HttpResponse("Successful add user: ", b)
     else:
         return redirect('http://127.0.0.1:8000/dashboard')
+
 
 def findUser(request):
     username = request.POST.get('username', None)
@@ -42,9 +46,9 @@ def findUser(request):
         content = {'admin': i.admin, 'username': i.username, 'password': i.password}
         arr.append(content)
     if arr:
-        return render(request, 'dashboard.html', context={'user': arr})
+        return HttpResponse(arr)
     else:
-        return render(request, 'dashboard.html', context={'user': "This user doesn't exist"})
+        return HttpResponse("The user does not exist")
 
 def modifyUser(request):
     username = request.POST.get('username', None)
@@ -54,9 +58,9 @@ def modifyUser(request):
         user = USER.objects.get(username=username)
         user.password = password
         user.save()
-        return render(request, 'dashboard.html', context={'mod_result': "modification complete"})
+        return HttpResponse("modification complete: ",username)
     else:
-        return render(request, 'dashboard.html', context={'mod_result': "This user doesn't exist"})
+        return HttpResponse("The user does not exist")
 
 
 def deleteUser(request):
@@ -65,9 +69,9 @@ def deleteUser(request):
     if exist:
         user = USER.objects.get(username = username)
         user.delete()
-        return render(request, 'dashboard.html', context={'del_result': "deletion complete"})
+        return HttpResponse("deletion complete")
     else:
-        return render(request, 'dashboard.html', context={'del_result': "This user doesn't exist"})
+        return HttpResponse("The user does not exist")
 
 
 def uploadImg(request):
@@ -82,10 +86,11 @@ def uploadImg(request):
         new_path = os.path.join(BASE_DIR, 'media', new_img.img.name).replace('\\', '/').replace('img', 'new_img')
         face_recognize(old_path, new_path)
 
-        return render(request, 'homepage.html')
+        return HttpResponse("upload successfully")
     else:
         return redirect('http://127.0.0.1:8000/homepage')
 
+# 展示全部原始图片
 def showImg(request):
     if request.method == 'POST':
         imgs = IMG.objects.all()
@@ -94,29 +99,55 @@ def showImg(request):
     else:
         return redirect('http://127.0.0.1:8000/dashboard')
 
-# 人脸识别
+# def showImg(request):
+#     if request.method == 'POST':
+#         imgs = IMG.objects.all()
+#         path = []
+#         for img in imgs:
+#             path.append(img.img.url)
+#         return HttpResponse(path)
+#     else:
+#         return redirect('http://127.0.0.1:8000/dashboard')
+
+
+# 人脸识别算法1.0
 def recImg(request):
     if request.method == 'POST':
         imgs = IMG.objects.all()
         for i in imgs:
             old_path = os.path.join(BASE_DIR, 'media', i.img.name).replace('\\', '/')
             new_path = os.path.join(BASE_DIR, 'media', i.img.name).replace('\\', '/').replace('img','new_img')
-            # print(old_path)
-            # print(new_path)
             face_recognize(old_path, new_path)
-    return redirect('http://127.0.0.1:8000/dashboard')
+        return  HttpResponse("recognize successfully")
+    else:
+        return redirect('http://127.0.0.1:8000/dashboard')
+
+
+# 人脸识别算法2.0
+# def recImg(request):
+#     if request.method == 'POST':
+#         face_path = os.path.join(BASE_DIR, 'webApp/Faces').replace('\\', '/')
+#         model_path = os.path.join(BASE_DIR, 'webApp/trained_model/trained_model.h5').replace('\\', '/')
+#         old_path = os.path.join(BASE_DIR, 'media/test_origin/Irene.jpg').replace('\\', '/')
+#         new_path = os.path.join(BASE_DIR, 'media/test_predict/Irene.jpg').replace('\\', '/')
+#         a = face_predict(model_path,face_path,old_path,new_path)
+#         return  HttpResponse(a)
+#     else:
+#         return redirect('http://127.0.0.1:8000/dashboard')
+
 
 # 返回所有new_img里图片的路径
 def showPath(request):
-    if request.method == 'GET':
+    if request.method == 'POST':
         rec_path = {}
         imgs = IMG.objects.all()
         for new_img in imgs:
             old_path = os.path.join(BASE_DIR, 'media', new_img.img.name).replace('\\', '/')
             new_path = os.path.join(BASE_DIR, 'media', new_img.img.name).replace('\\', '/').replace('img', 'new_img')
-            rec_path[new_img.img.name] = new_path
-        print(rec_path)
-        return  redirect('http://127.0.0.1:8000/dashboard')
+            rec_path[new_img.name]=new_path
+        # print(rec_path)
+        # return HttpResponse(rec_path)
+        return HttpResponse(json.dumps(rec_path), content_type="application/json")
     else:
         return redirect('http://127.0.0.1:8000/dashboard')
 

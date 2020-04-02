@@ -36,7 +36,7 @@
     <h4>result: {{ mod_result }}</h4>
 
     <br>
-    <h4 style="color: deeppink">4. delete a user's password</h4>
+    <h4 style="color: deeppink">4. delete a user</h4>
     <form method="POST" action="delete_user">
         {% csrf_token %}
         username<input type="text" name="username"><br>
