@@ -26,6 +26,7 @@ def dashboard(request):
     return render(request, 'dashboard.html')
 
 
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
 def addUser(request):
     if request.method == 'POST':
@@ -62,7 +63,6 @@ def modifyUser(request):
     else:
         return HttpResponse("The user does not exist")
 
-
 def deleteUser(request):
     username = request.POST.get('username', None)
     exist = USER.objects.filter(username = username)
@@ -74,6 +74,9 @@ def deleteUser(request):
         return HttpResponse("The user does not exist")
 
 
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+
+# 手动上传照片
 def uploadImg(request):
     if request.method == 'POST':
         new_img = IMG(
@@ -81,16 +84,14 @@ def uploadImg(request):
             name = request.FILES.get('img').name
         )
         new_img.save()
-
         old_path = os.path.join(BASE_DIR, 'media', new_img.img.name).replace('\\', '/')
         new_path = os.path.join(BASE_DIR, 'media', new_img.img.name).replace('\\', '/').replace('img', 'new_img')
         face_recognize(old_path, new_path)
-
         return HttpResponse("upload successfully")
     else:
         return redirect('http://127.0.0.1:8000/homepage')
 
-# 展示全部原始图片
+# 展示全部原始图片path
 def showImg(request):
     if request.method == 'POST':
         imgs = IMG.objects.all()
@@ -98,43 +99,6 @@ def showImg(request):
         return render(request, 'dashboard.html', content)
     else:
         return redirect('http://127.0.0.1:8000/dashboard')
-
-# def showImg(request):
-#     if request.method == 'POST':
-#         imgs = IMG.objects.all()
-#         path = []
-#         for img in imgs:
-#             path.append(img.img.url)
-#         return HttpResponse(path)
-#     else:
-#         return redirect('http://127.0.0.1:8000/dashboard')
-
-
-# 人脸识别算法1.0
-def recImg(request):
-    if request.method == 'POST':
-        imgs = IMG.objects.all()
-        for i in imgs:
-            old_path = os.path.join(BASE_DIR, 'media', i.img.name).replace('\\', '/')
-            new_path = os.path.join(BASE_DIR, 'media', i.img.name).replace('\\', '/').replace('img','new_img')
-            face_recognize(old_path, new_path)
-        return  HttpResponse("recognize successfully")
-    else:
-        return redirect('http://127.0.0.1:8000/dashboard')
-
-
-# 人脸识别算法2.0
-# def recImg(request):
-#     if request.method == 'POST':
-#         face_path = os.path.join(BASE_DIR, 'webApp/Faces').replace('\\', '/')
-#         model_path = os.path.join(BASE_DIR, 'webApp/trained_model/trained_model.h5').replace('\\', '/')
-#         old_path = os.path.join(BASE_DIR, 'media/test_origin/Irene.jpg').replace('\\', '/')
-#         new_path = os.path.join(BASE_DIR, 'media/test_predict/Irene.jpg').replace('\\', '/')
-#         a = face_predict(model_path,face_path,old_path,new_path)
-#         return  HttpResponse(a)
-#     else:
-#         return redirect('http://127.0.0.1:8000/dashboard')
-
 
 # 返回所有new_img里图片的路径
 def showPath(request):
@@ -151,6 +115,83 @@ def showPath(request):
     else:
         return redirect('http://127.0.0.1:8000/dashboard')
 
+# def showImg(request):
+#     if request.method == 'POST':
+#         imgs = IMG.objects.all()
+#         path = []
+#         for img in imgs:
+#             path.append(img.img.url)
+#         return HttpResponse(path)
+#     else:
+#         return redirect('http://127.0.0.1:8000/dashboard')
+
+
+# 人脸识别算法1.0
+# def recImg(request):
+#     if request.method == 'POST':
+#         imgs = IMG.objects.all()
+#         for i in imgs:
+#             old_path = os.path.join(BASE_DIR, 'media', i.img.name).replace('\\', '/')
+#             new_path = os.path.join(BASE_DIR, 'media', i.img.name).replace('\\', '/').replace('img','new_img')
+#             face_recognize(old_path, new_path)
+#         return  HttpResponse("recognize successfully")
+#     else:
+#         return redirect('http://127.0.0.1:8000/dashboard')
+
+
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+
+# 将img里的图片根据username移动到Faces文件夹里(东哥算法)
+def setFace(request):
+    if request.method == 'POST':
+        file_obj = request.FILES.get('face', None)
+        username = request.POST.get('username', None)
+        username1 = file_obj.name
+        file = os.path.join(BASE_DIR, 'webApp/Faces/',username,username1).replace('\\', '/')
+        userface = os.path.join(BASE_DIR, 'webApp/Faces/',username).replace('\\', '/')
+        if not os.path.exists(userface):
+            os.mkdir(userface)
+        with open(file, 'wb+') as f:
+            f.write(file_obj.read())
+        return HttpResponse("set face successfully")
+
+# 模型训练
+def trainModel(request):
+    if request.method == 'POST':
+        face_path = os.path.join(BASE_DIR, 'webApp/Faces').replace('\\', '/')
+        model_path = os.path.join(BASE_DIR, 'webApp/trained_model/test').replace('\\', '/')
+        face_train(face_path,10,model_path)
+        return HttpResponse("train successfully")
+    else:
+        return redirect('http://127.0.0.1:8000/dashboard')
+
+# 模型训练(每次有新的用户注册就要训练)
+# def trainModel(request):
+#     if request.method == 'POST':
+#         username = request.POST.get('username', None)
+#         face_path = os.path.join(BASE_DIR, 'webApp/Faces').replace('\\', '/')
+#         model_path = os.path.join(BASE_DIR, 'webApp/trained_model',username).replace('\\', '/')
+#         if not os.path.exists(model_path):
+#             os.mkdir(model_path)
+#         face_train(face_path,10,model_path)
+#         return HttpResponse("train successfully")
+#     else:
+#         return redirect('http://127.0.0.1:8000/dashboard')
+
+# 人脸识别算法2.0
+def recImg(request):
+    if request.method == 'POST':
+        face_path = os.path.join(BASE_DIR, 'webApp/Faces').replace('\\', '/')
+        model_path = os.path.join(BASE_DIR, 'webApp/trained_model/test/trained_model.h5').replace('\\', '/')
+        old_path = os.path.join(BASE_DIR, 'media/test_origin/1.jpg').replace('\\', '/')
+        new_path = os.path.join(BASE_DIR, 'media/test_predict/1.jpg').replace('\\', '/')
+        a = face_predict(model_path,face_path,old_path,new_path)
+        return HttpResponse(a)
+    else:
+        return redirect('http://127.0.0.1:8000/dashboard')
+
+
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
 
 # 删除所有数据
@@ -161,3 +202,8 @@ def delImg(request):
     IMG.objects.all().delete()
     return HttpResponse('All images are deleted')
 
+
+# 1.用户注册时前端拍10张照片，发给后端
+# 2.把用户的10张照片存在Faces文件夹的顶部
+# 3.训练该用户的模型
+# 4.用户答题时拍照片，运行predict函数，返回准确度
