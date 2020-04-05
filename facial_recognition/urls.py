@@ -40,12 +40,16 @@ urlpatterns = [
     # 展示图片
     path('dashboard/show', views.showImg),
 
-    # 训练模型
-    path('dashboard/train', views.trainModel),
+
+
     # 将拍的图存在Faces文件夹
     path('dashboard/set', views.setFace),
+    # 训练模型
+    path('dashboard/train', views.trainModel),
     # 识别图片
     path('dashboard/rec', views.recImg),
+
+
 
 
     # 展示所有识别后图片路径（字典）

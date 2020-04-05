@@ -10,6 +10,7 @@ from webApp.models import IMG
 from webApp.face_recognize import face_recognize
 from webApp.face_recognize_controller import face_predict
 from webApp.face_recognize_controller import face_train
+from webApp.face_deal import deal_face
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_DIR = BASE_DIR.replace('\\', '/')
@@ -103,14 +104,15 @@ def showImg(request):
 # 返回所有new_img里图片的路径
 def showPath(request):
     if request.method == 'POST':
-        rec_path = {}
+        rec_path = []
         imgs = IMG.objects.all()
         for new_img in imgs:
+            element = {}
             old_path = os.path.join(BASE_DIR, 'media', new_img.img.name).replace('\\', '/')
             new_path = os.path.join(BASE_DIR, 'media', new_img.img.name).replace('\\', '/').replace('img', 'new_img')
-            rec_path[new_img.name]=new_path
-        # print(rec_path)
-        # return HttpResponse(rec_path)
+            element['name'] = new_img.name
+            element['path'] = new_path
+            rec_path.append(element)
         return HttpResponse(json.dumps(rec_path), content_type="application/json")
     else:
         return redirect('http://127.0.0.1:8000/dashboard')
@@ -153,38 +155,43 @@ def setFace(request):
             os.mkdir(userface)
         with open(file, 'wb+') as f:
             f.write(file_obj.read())
-        return HttpResponse("set face successfully")
+            deal_face(file, file)
 
-# 模型训练
+        return HttpResponse("set faces successfully")
+
+
+# 模型训练(每次有新的用户注册就要训练)
 def trainModel(request):
     if request.method == 'POST':
+        username = request.POST.get('username', None)
         face_path = os.path.join(BASE_DIR, 'webApp/Faces').replace('\\', '/')
-        model_path = os.path.join(BASE_DIR, 'webApp/trained_model/test').replace('\\', '/')
+        model_path = os.path.join(BASE_DIR, 'webApp/trained_model',username).replace('\\', '/')
+        if not os.path.exists(model_path):
+            os.mkdir(model_path)
         face_train(face_path,10,model_path)
         return HttpResponse("train successfully")
     else:
         return redirect('http://127.0.0.1:8000/dashboard')
 
-# 模型训练(每次有新的用户注册就要训练)
-# def trainModel(request):
-#     if request.method == 'POST':
-#         username = request.POST.get('username', None)
-#         face_path = os.path.join(BASE_DIR, 'webApp/Faces').replace('\\', '/')
-#         model_path = os.path.join(BASE_DIR, 'webApp/trained_model',username).replace('\\', '/')
-#         if not os.path.exists(model_path):
-#             os.mkdir(model_path)
-#         face_train(face_path,10,model_path)
-#         return HttpResponse("train successfully")
-#     else:
-#         return redirect('http://127.0.0.1:8000/dashboard')
 
 # 人脸识别算法2.0
 def recImg(request):
     if request.method == 'POST':
+        file_obj = request.FILES.get('face', None)
+        username = request.POST.get('username', None)
+        username1 = file_obj.name
+        old_path = os.path.join(BASE_DIR, 'media/test_origin', username1).replace('\\', '/')
+        new_path = os.path.join(BASE_DIR, 'media/test_predict', username1).replace('\\', '/')
+        # test_face = os.path.join(BASE_DIR, 'webApp/Faces/', username).replace('\\', '/')
+
+        # if not os.path.exists(userface):
+        #     os.mkdir(userface)
+
+
+        with open(old_path, 'wb+') as f:
+            f.write(file_obj.read())
         face_path = os.path.join(BASE_DIR, 'webApp/Faces').replace('\\', '/')
-        model_path = os.path.join(BASE_DIR, 'webApp/trained_model/test/trained_model.h5').replace('\\', '/')
-        old_path = os.path.join(BASE_DIR, 'media/test_origin/1.jpg').replace('\\', '/')
-        new_path = os.path.join(BASE_DIR, 'media/test_predict/1.jpg').replace('\\', '/')
+        model_path = os.path.join(BASE_DIR, 'webApp/trained_model',username,'trained_model.h5').replace('\\', '/')
         a = face_predict(model_path,face_path,old_path,new_path)
         return HttpResponse(a)
     else:
