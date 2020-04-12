@@ -26,6 +26,8 @@ def resize_img(img):
 def detect_face(img):
     img_copy = img.copy()
     img_save = img_copy
+    isDetected = False
+    
     path = os.path.join(BASE_DIR, 'webApp/haarcascades/haarcascade_frontalface_alt2.xml').replace('\\', '/')
     face_cascade = cv2.CascadeClassifier(path)#创建Haar级联分类器 alt2的效果好一些
     
@@ -37,8 +39,10 @@ def detect_face(img):
         cv2.rectangle(img_copy, (x, y), (x+w, y+h), (0, 0, 255), 3)
         img_save = img[y:y+h,x:x+w]
         img_save = resize_img(img_save)#把保存的图片调整为64*64像素
+        isDetected = True
+        break#只检测一张脸
     
-    return img_save
+    return img_save, isDetected
 
 # def deal_face(img):
 # #     return detect_face(img)#返回一张处理好的人脸图片
@@ -46,5 +50,10 @@ def detect_face(img):
 
 def deal_face(img_path, save_path):
     img = cv2.imread(img_path)#jpg
-    img = detect_face(img)#返回一张处理好的人脸图片
-    cv2.imwrite(save_path, img)#jpg
+    img, isDetected = detect_face(img)#返回一张处理好的人脸图片
+    if isDetected:
+        cv2.imwrite(save_path, img)#jpg
+
+# count
+# save_path 是fuzixin/Client
+

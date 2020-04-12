@@ -16,9 +16,12 @@ def load_img(path, read_num):#读取文件夹图片，文件夹名为标签
     names = []
     folder_index = 0
     for folder_name in os.listdir(path):
+        if folder_name == '.DS_Store':
+            continue
+
         names.append(folder_name)
         for i in range(read_num):
-            img = cv2.imread(str(path) + '\\' + str(folder_name) + '\\' + str(i) + '.jpg')#加载检测人物的脸
+            img = cv2.imread(str(path) + '/' + str(folder_name) + '/' + str(i) + '.jpg')#加载检测人物的脸
             img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)#转化为单通道
             images.append(img)
             labels.append(folder_index)
@@ -99,7 +102,7 @@ def build_model(x_train, y_train, x_test, y_test, out_num):#模型训练
     return model
 
 def save_model(model, path):
-    model.save(str(path) + '\\trained_model.h5')
+    model.save(str(path) + '/trained_model.h5')
 
 
 ##################################################
@@ -124,6 +127,8 @@ def read_model(model_name):
 def read_names(path):
     names = []
     for folder_name in os.listdir(path):
+        if folder_name == '.DS_Store':
+            continue
         names.append(folder_name)
     return names
 
@@ -153,6 +158,10 @@ def detect_face(img, model, names, predict_name_index):
     #返回检测出的所有人脸矩形四个点的位置列表[[x,y,w,h]]（四个点为x，y，x+w，y+h）
     face_rects = face_cascade.detectMultiScale(img_copy,scaleFactor = 1.1,minNeighbors = 3)
 
+    if len(face_rects) == 0:#没检测到人脸
+        return img_copy, predict_name_accuracy
+
+
     for (x, y, w, h) in face_rects:#对于每一张脸画框框
         cv2.rectangle(img_copy, (x, y), (x+w, y+h), (0, 0, 255), 3)
         img_predict = img[y:y+h,x:x+w]
@@ -171,7 +180,7 @@ def detect_face(img, model, names, predict_name_index):
 
          
         
-        if label_predict[0][max_possible] >= 0.75:  #概率大于75%输出
+        if label_predict[0][max_possible] >= 0.5:  #概率大于50%输出
             cv2.putText(img_copy, text=names[max_possible] + '(' + str(int(label_predict[0][max_possible]*100)) + '%)', org=(x,y), fontFace=cv2.FONT_HERSHEY_DUPLEX,
             fontScale=1, color=(0,0,255),thickness=2, lineType=cv2.LINE_AA)#打印对应的名字和概率            
         else:
@@ -181,6 +190,7 @@ def detect_face(img, model, names, predict_name_index):
         
         predict_name_accuracy = max(predict_name_accuracy, label_predict[0][predict_name_index])#返回所有检测的脸中预测用户脸的最大准确度
 
+        break#只检测一张脸
         
     return img_copy, predict_name_accuracy
 
@@ -204,6 +214,8 @@ def face_predict(trained_model_path, face_folder_path, predict_photo_path, predi
 #注意！！！！！！用户的训练图片文件夹必须在所有训练文件夹的第一个！！！！
 #
 
-# 106行 1.faces文件夹 3.模型存在哪里 4.读取模型
+# 106行 1.fuzixin文件夹 3.模型存在哪里 4.读取模型
 # 148行改路径
-# 189行trained_model_path是trained_model下.h5文件 // face_folder_path是Faces文件夹 // predict_photo_path 要检测.jpg文件 // predicted_photo_save_path检测完图片存在哪
+# 189行trained_model_path是trained_model下.h5文件 // face_folder_path是fuzixin文件夹 // predict_photo_path 要检测.jpg文件 // predicted_photo_save_path检测完图片存在哪
+
+# 89行 50/100

@@ -149,10 +149,15 @@ def setFace(request):
         file_obj = request.FILES.get('face', None)
         username = request.POST.get('username', None)
         username1 = file_obj.name
-        file = os.path.join(BASE_DIR, 'webApp/Faces/',username,username1).replace('\\', '/')
+
         userface = os.path.join(BASE_DIR, 'webApp/Faces/',username).replace('\\', '/')
+        file = os.path.join(BASE_DIR, 'webApp/Faces/', username, 'Client/', username1).replace('\\', '/')
+
         if not os.path.exists(userface):
             os.mkdir(userface)
+        # 把Other考进来
+
+
         with open(file, 'wb+') as f:
             f.write(file_obj.read())
             deal_face(file, file)
@@ -164,11 +169,14 @@ def setFace(request):
 def trainModel(request):
     if request.method == 'POST':
         username = request.POST.get('username', None)
-        face_path = os.path.join(BASE_DIR, 'webApp/Faces').replace('\\', '/')
+        face_path = os.path.join(BASE_DIR, 'webApp/Faces',username).replace('\\', '/')
         model_path = os.path.join(BASE_DIR, 'webApp/trained_model',username).replace('\\', '/')
+
         if not os.path.exists(model_path):
             os.mkdir(model_path)
-        face_train(face_path,10,model_path)
+
+        face_train(face_path,100,model_path)
+
         return HttpResponse("train successfully")
     else:
         return redirect('http://127.0.0.1:8000/dashboard')
@@ -180,18 +188,15 @@ def recImg(request):
         file_obj = request.FILES.get('face', None)
         username = request.POST.get('username', None)
         username1 = file_obj.name
+
         old_path = os.path.join(BASE_DIR, 'media/test_origin', username1).replace('\\', '/')
         new_path = os.path.join(BASE_DIR, 'media/test_predict', username1).replace('\\', '/')
-        # test_face = os.path.join(BASE_DIR, 'webApp/Faces/', username).replace('\\', '/')
-
-        # if not os.path.exists(userface):
-        #     os.mkdir(userface)
-
 
         with open(old_path, 'wb+') as f:
             f.write(file_obj.read())
-        face_path = os.path.join(BASE_DIR, 'webApp/Faces').replace('\\', '/')
+        face_path = os.path.join(BASE_DIR, 'webApp/Faces',username).replace('\\', '/')
         model_path = os.path.join(BASE_DIR, 'webApp/trained_model',username,'trained_model.h5').replace('\\', '/')
+
         a = face_predict(model_path,face_path,old_path,new_path)
         return HttpResponse(a)
     else:

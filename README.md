@@ -22,17 +22,14 @@ python manage.py makemigrations
 python manage.py migrate
 
 
-#4.5 新增：
+#4.12 新增：
 1. 所有POST方法返回值以HttpResponse的形式返回(所有方法基本都是POST)
 2. 更新了东哥的2.0算法
 3. 增加了dashboard/set方法，需要传username和图片（10张），可以将该用户的照片存在Faces文件夹下，以便训练该用户模型
 4. 增加了dashboard/train(username) dashboard/rec(username, 图片)方法，用来训练模型并返回预测结果
 
 #基本流程：
-1.用户注册时前端拍10张照片，发给后端
-2.把用户的10张照片存在Faces文件夹的顶部(文件名必须 0.jpg,1.jpg,...)
-3.训练该用户的模型
-4.用户答题时拍照片，运行predict函数，返回准确度
+东哥daSB
 
 
 

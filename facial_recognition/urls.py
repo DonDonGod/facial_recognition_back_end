@@ -51,7 +51,6 @@ urlpatterns = [
 
 
 
-
     # 展示所有识别后图片路径（字典）
     path('dashboard/path', views.showPath),
 

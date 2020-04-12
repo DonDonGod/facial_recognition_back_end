@@ -58,7 +58,7 @@
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/webApp/Faces" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../git_project/facial-recognition" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -71,6 +71,7 @@
       <recent name="C:\STUDY\Degree Project\project\backend\facial_recognition\webApp\Faces" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\STUDY\Degree Project\project\backend\facial_recognition\webApp\Faces" />
       <recent name="C:\STUDY\Degree Project\project\backend\facial_recognition\media\test_origin" />
       <recent name="C:\STUDY\Degree Project\project\backend\facial_recognition" />
     </key>
@@ -122,7 +123,12 @@
       <workItem from="1585205660299" duration="13212000" />
       <workItem from="1585312678549" duration="3051000" />
       <workItem from="1585565559879" duration="30422000" />
-      <workItem from="1585831620856" duration="31430000" />
+      <workItem from="1585831620856" duration="43747000" />
+      <workItem from="1586582518872" duration="5395000" />
+      <workItem from="1586597947766" duration="494000" />
+      <workItem from="1586598468516" duration="329000" />
+      <workItem from="1586598830650" duration="118000" />
+      <workItem from="1586598971342" duration="10286000" />
     </task>
     <servers />
   </component>
@@ -142,10 +148,10 @@
       <screen x="0" y="0" width="1620" height="1040" />
     </state>
     <state x="541" y="267" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1620.1040@0.0.1620.1040" timestamp="1585746140766" />
-    <state x="996" y="275" key="FileChooserDialogImpl" timestamp="1585580603039">
+    <state x="996" y="275" key="FileChooserDialogImpl" timestamp="1586098318867">
       <screen x="0" y="0" width="1620" height="1040" />
     </state>
-    <state x="996" y="275" key="FileChooserDialogImpl/0.0.1620.1040@0.0.1620.1040" timestamp="1585580603039" />
+    <state x="996" y="275" key="FileChooserDialogImpl/0.0.1620.1040@0.0.1620.1040" timestamp="1586098318867" />
     <state width="1578" height="278" key="GridCell.Tab.0.bottom" timestamp="1585316109564">
       <screen x="0" y="0" width="1620" height="1040" />
     </state>
@@ -166,10 +172,10 @@
       <screen x="0" y="0" width="1620" height="1040" />
     </state>
     <state width="214" height="477" key="HiddenNamespacesPopup/0.0.1620.1040@0.0.1620.1040" timestamp="1584613736062" />
-    <state x="500" y="345" key="com.intellij.ide.util.TipDialog" timestamp="1585831621305">
+    <state x="500" y="345" key="com.intellij.ide.util.TipDialog" timestamp="1586598977230">
       <screen x="0" y="0" width="1620" height="1040" />
     </state>
-    <state x="500" y="345" key="com.intellij.ide.util.TipDialog/0.0.1620.1040@0.0.1620.1040" timestamp="1585831621305" />
+    <state x="500" y="345" key="com.intellij.ide.util.TipDialog/0.0.1620.1040@0.0.1620.1040" timestamp="1586598977230" />
     <state x="6" y="193" width="637" height="801" key="find.popup" timestamp="1584607067774">
       <screen x="0" y="0" width="1620" height="1040" />
     </state>
