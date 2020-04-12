@@ -3,6 +3,8 @@ from django.shortcuts import redirect
 from django.http import JsonResponse, HttpResponse
 import os
 import json
+import shutil
+import time
 
 from facial_recognition import settings
 from webApp.models import USER
@@ -151,13 +153,22 @@ def setFace(request):
         username1 = file_obj.name
 
         userface = os.path.join(BASE_DIR, 'webApp/Faces/',username).replace('\\', '/')
-        file = os.path.join(BASE_DIR, 'webApp/Faces/', username, 'Client/', username1).replace('\\', '/')
+        otherpath = os.path.join(BASE_DIR, 'webApp/Faces/',username, 'Other').replace('\\', '/')
+        clientpath = os.path.join(BASE_DIR, 'webApp/Faces/',username, 'Client').replace('\\', '/')
+        copypath = os.path.join(BASE_DIR, 'webApp/Other').replace('\\', '/')
 
         if not os.path.exists(userface):
             os.mkdir(userface)
-        # 把Other考进来
+            os.mkdir(otherpath)
+            os.mkdir(clientpath)
+            # 把Other考进来
+            all_list = os.listdir(copypath)
+            for i in all_list:
+                a = os.path.join(BASE_DIR, 'webApp/Other',i).replace('\\', '/')
+                b = os.path.join(BASE_DIR, 'webApp/Faces/',username, 'Other',i).replace('\\', '/')
+                shutil.copyfile(a,b)
 
-
+        file = os.path.join(BASE_DIR, 'webApp/Faces/', username, 'Client/', username1).replace('\\', '/')
         with open(file, 'wb+') as f:
             f.write(file_obj.read())
             deal_face(file, file)

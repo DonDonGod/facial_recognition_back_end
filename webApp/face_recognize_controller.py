@@ -203,7 +203,7 @@ def face_predict(trained_model_path, face_folder_path, predict_photo_path, predi
     
     predict_photo = cv2.imread(predict_photo_path)#读取要预测的图片
 
-    predicted_photo, predict_name_accuracy = detect_face(predict_photo, model, names, 0)#预测图片，返回以预测的图片和最大的精确度
+    predicted_photo, predict_name_accuracy = detect_face(predict_photo, model, names, 1)#预测图片，返回以预测的图片和最大的精确度
 
     cv2.imwrite(predicted_photo_save_path, predicted_photo)#保存画了框框的图片到保存路径
 
