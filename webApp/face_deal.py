@@ -49,10 +49,13 @@ def detect_face(img):
 # #
 
 def deal_face(img_path, save_path):
+    flag = 0
     img = cv2.imread(img_path)#jpg
     img, isDetected = detect_face(img)#返回一张处理好的人脸图片
     if isDetected:
         cv2.imwrite(save_path, img)#jpg
+        flag += 1
+    return flag
 
 # count
 # save_path 是fuzixin/Client

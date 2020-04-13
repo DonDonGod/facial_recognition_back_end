@@ -22,11 +22,15 @@ python manage.py makemigrations
 python manage.py migrate
 
 
-#4.12 新增：
+#4.13 新增：
+1.更新算法
+2.setFace算法用户上传100张照片时，照片有效返回1，未检测出人脸返回0
 
 
 #基本流程：
-东哥一般般
+1.用户注册时自动拍100张照片 存在Faces里对应用户名的Client文件夹下
+2.训练该用户模型存在trained_model里对应用户文件夹下
+3.每隔一段时间拍照进行预测，返回准确度
 
 
 

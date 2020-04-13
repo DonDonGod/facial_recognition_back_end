@@ -79,30 +79,8 @@ def deleteUser(request):
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
-# 手动上传照片
-def uploadImg(request):
-    if request.method == 'POST':
-        new_img = IMG(
-            img=request.FILES.get('img'),
-            name = request.FILES.get('img').name
-        )
-        new_img.save()
-        old_path = os.path.join(BASE_DIR, 'media', new_img.img.name).replace('\\', '/')
-        new_path = os.path.join(BASE_DIR, 'media', new_img.img.name).replace('\\', '/').replace('img', 'new_img')
-        face_recognize(old_path, new_path)
-        return HttpResponse("upload successfully")
-    else:
-        return redirect('http://127.0.0.1:8000/homepage')
 
-# 展示全部原始图片path
-def showImg(request):
-    if request.method == 'POST':
-        imgs = IMG.objects.all()
-        content = {'imgs': imgs}
-        return render(request, 'dashboard.html', content)
-    else:
-        return redirect('http://127.0.0.1:8000/dashboard')
-
+# 没啥用
 # 返回所有new_img里图片的路径
 def showPath(request):
     if request.method == 'POST':
@@ -119,29 +97,6 @@ def showPath(request):
     else:
         return redirect('http://127.0.0.1:8000/dashboard')
 
-# def showImg(request):
-#     if request.method == 'POST':
-#         imgs = IMG.objects.all()
-#         path = []
-#         for img in imgs:
-#             path.append(img.img.url)
-#         return HttpResponse(path)
-#     else:
-#         return redirect('http://127.0.0.1:8000/dashboard')
-
-
-# 人脸识别算法1.0
-# def recImg(request):
-#     if request.method == 'POST':
-#         imgs = IMG.objects.all()
-#         for i in imgs:
-#             old_path = os.path.join(BASE_DIR, 'media', i.img.name).replace('\\', '/')
-#             new_path = os.path.join(BASE_DIR, 'media', i.img.name).replace('\\', '/').replace('img','new_img')
-#             face_recognize(old_path, new_path)
-#         return  HttpResponse("recognize successfully")
-#     else:
-#         return redirect('http://127.0.0.1:8000/dashboard')
-
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
@@ -151,29 +106,35 @@ def setFace(request):
         file_obj = request.FILES.get('face', None)
         username = request.POST.get('username', None)
         username1 = file_obj.name
-
         userface = os.path.join(BASE_DIR, 'webApp/Faces/',username).replace('\\', '/')
         otherpath = os.path.join(BASE_DIR, 'webApp/Faces/',username, 'Other').replace('\\', '/')
         clientpath = os.path.join(BASE_DIR, 'webApp/Faces/',username, 'Client').replace('\\', '/')
         copypath = os.path.join(BASE_DIR, 'webApp/Other').replace('\\', '/')
 
+        # 第一次注册，创建该用户文件夹
         if not os.path.exists(userface):
             os.mkdir(userface)
             os.mkdir(otherpath)
             os.mkdir(clientpath)
-            # 把Other考进来
+            # 把Other复制进来
             all_list = os.listdir(copypath)
             for i in all_list:
                 a = os.path.join(BASE_DIR, 'webApp/Other',i).replace('\\', '/')
                 b = os.path.join(BASE_DIR, 'webApp/Faces/',username, 'Other',i).replace('\\', '/')
                 shutil.copyfile(a,b)
 
+        # 将照片写入Client
         file = os.path.join(BASE_DIR, 'webApp/Faces/', username, 'Client/', username1).replace('\\', '/')
         with open(file, 'wb+') as f:
             f.write(file_obj.read())
-            deal_face(file, file)
+            # 检测是否是人脸
+            flag = deal_face(file, file)
+        # 没有人别出人脸将其删除
+        if flag == 0:
+            os.remove(file)
 
-        return HttpResponse("set faces successfully")
+        # 1:成功识别人脸; 0:未检测出人脸
+        return HttpResponse(flag)
 
 
 # 模型训练(每次有新的用户注册就要训练)
@@ -187,7 +148,6 @@ def trainModel(request):
             os.mkdir(model_path)
 
         face_train(face_path,100,model_path)
-
         return HttpResponse("train successfully")
     else:
         return redirect('http://127.0.0.1:8000/dashboard')

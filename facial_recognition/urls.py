@@ -35,12 +35,6 @@ urlpatterns = [
     path('dashboard/delete_user', views.deleteUser),
 
 
-    # 上传图片并识别（原图在media/img, 识别后的图在media/new_img）
-    path('homepage/upload', views.uploadImg),
-    # 展示图片
-    path('dashboard/show', views.showImg),
-
-
 
     # 将拍的图存在Faces文件夹
     path('dashboard/set', views.setFace),
