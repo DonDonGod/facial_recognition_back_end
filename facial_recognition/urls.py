@@ -36,8 +36,10 @@ urlpatterns = [
 
 
 
-    # 将拍的图存在Faces文件夹
+    # 将拍的图存在Faces/username/Client文件夹
     path('dashboard/set', views.setFace),
+    # 检查Client里是否有100张图 如果小于100清空文件夹
+    path('dashboard/check', views.check),
     # 训练模型
     path('dashboard/train', views.trainModel),
     # 识别图片

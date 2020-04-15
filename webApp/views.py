@@ -132,9 +132,21 @@ def setFace(request):
         # 没有人别出人脸将其删除
         if flag == 0:
             os.remove(file)
-
         # 1:成功识别人脸; 0:未检测出人脸
         return HttpResponse(flag)
+
+
+# 检查Client文件夹里是否有100张照片 如果小于100清空文件夹
+def check(request):
+    username = request.POST.get('username', None)
+    clientpath = os.path.join(BASE_DIR, 'webApp/Faces/', username, 'Client').replace('\\', '/')
+    all_list = os.listdir(clientpath)
+    size = len(all_list)
+    if size<100:
+        for i in all_list:
+            file = os.path.join(BASE_DIR, 'webApp/Faces/', username, 'Client/', i).replace('\\', '/')
+            os.remove(file)
+    return HttpResponse(size)
 
 
 # 模型训练(每次有新的用户注册就要训练)
@@ -159,17 +171,22 @@ def recImg(request):
         file_obj = request.FILES.get('face', None)
         username = request.POST.get('username', None)
         username1 = file_obj.name
-
-        old_path = os.path.join(BASE_DIR, 'media/test_origin', username1).replace('\\', '/')
-        new_path = os.path.join(BASE_DIR, 'media/test_predict', username1).replace('\\', '/')
+        a = os.path.join(BASE_DIR, 'media/test_origin', username).replace('\\', '/')
+        b =os.path.join(BASE_DIR, 'media/test_predict', username).replace('\\', '/')
+        old_path = os.path.join(BASE_DIR, 'media/test_origin', username, username1).replace('\\', '/')
+        new_path = os.path.join(BASE_DIR, 'media/test_predict', username, username1).replace('\\', '/')
+        if not os.path.exists(a):
+            os.mkdir(a)
+        if not os.path.exists(b):
+            os.mkdir(b)
 
         with open(old_path, 'wb+') as f:
             f.write(file_obj.read())
         face_path = os.path.join(BASE_DIR, 'webApp/Faces',username).replace('\\', '/')
         model_path = os.path.join(BASE_DIR, 'webApp/trained_model',username,'trained_model.h5').replace('\\', '/')
 
-        a = face_predict(model_path,face_path,old_path,new_path)
-        return HttpResponse(a)
+        acc = face_predict(model_path,face_path,old_path,new_path)
+        return HttpResponse(acc)
     else:
         return redirect('http://127.0.0.1:8000/dashboard')
 

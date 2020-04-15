@@ -67,13 +67,13 @@
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\STUDY\Degree Project\project\backend\facial_recognition\webApp\Faces" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\STUDY\Degree Project\project\backend\facial_recognition\webApp\Faces" />
       <recent name="C:\STUDY\Degree Project\project\backend\facial_recognition\media\test_origin" />
       <recent name="C:\STUDY\Degree Project\project\backend\facial_recognition" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\STUDY\Degree Project\project\backend\facial_recognition\webApp\Faces" />
     </key>
   </component>
   <component name="RunManager">
@@ -128,7 +128,7 @@
       <workItem from="1586597947766" duration="494000" />
       <workItem from="1586598468516" duration="329000" />
       <workItem from="1586598830650" duration="118000" />
-      <workItem from="1586598971342" duration="16075000" />
+      <workItem from="1586598971342" duration="25357000" />
     </task>
     <servers />
   </component>
@@ -180,9 +180,9 @@
       <screen x="0" y="0" width="1620" height="1040" />
     </state>
     <state x="6" y="193" width="637" height="801" key="find.popup/0.0.1620.1040@0.0.1620.1040" timestamp="1584607067774" />
-    <state x="881" y="231" width="672" height="678" key="search.everywhere.popup" timestamp="1586781595891">
+    <state x="881" y="231" width="672" height="678" key="search.everywhere.popup" timestamp="1586936679484">
       <screen x="0" y="0" width="1620" height="1040" />
     </state>
-    <state x="881" y="231" width="672" height="678" key="search.everywhere.popup/0.0.1620.1040@0.0.1620.1040" timestamp="1586781595891" />
+    <state x="881" y="231" width="672" height="678" key="search.everywhere.popup/0.0.1620.1040@0.0.1620.1040" timestamp="1586936679484" />
   </component>
 </project>

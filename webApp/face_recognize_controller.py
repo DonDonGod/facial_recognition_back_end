@@ -199,23 +199,20 @@ def detect_face(img, model, names, predict_name_index):
 def face_predict(trained_model_path, face_folder_path, predict_photo_path, predicted_photo_save_path):#路径类似'C:\\Users\\LUOJ\\Desktop\\Faces'
     model = read_model(trained_model_path)#读取保存的模型
     names = read_names(face_folder_path)#读取所有脸文件夹的标签
-    #print(names)
+    # print('0:' + names[0] + ' and 1:' + names[1] + '@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@')
     
     predict_photo = cv2.imread(predict_photo_path)#读取要预测的图片
 
-    predicted_photo, predict_name_accuracy = detect_face(predict_photo, model, names, 1)#预测图片，返回以预测的图片和最大的精确度
+    predicted_photo, predict_name_accuracy = detect_face(predict_photo, model, names, 0)#预测图片，返回以预测的图片和最大的精确度
 
     cv2.imwrite(predicted_photo_save_path, predicted_photo)#保存画了框框的图片到保存路径
 
     return predict_name_accuracy #返回准确度
 ###################################################
 
-#
-#注意！！！！！！用户的训练图片文件夹必须在所有训练文件夹的第一个！！！！
-#
+# 206行苹果电脑predicted_photo, predict_name_accuracy = detect_face(predict_photo, model, names, 1)
 
 # 106行 1.fuzixin文件夹 3.模型存在哪里 4.读取模型
-# 148行改路径
 # 189行trained_model_path是trained_model下.h5文件 // face_folder_path是fuzixin文件夹 // predict_photo_path 要检测.jpg文件 // predicted_photo_save_path检测完图片存在哪
 
 # 89行 50/100

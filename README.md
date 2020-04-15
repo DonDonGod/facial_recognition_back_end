@@ -6,7 +6,8 @@ import pymysql
 pymysql.version_info = (1, 3, 13, "final", 0)
 pymysql.install_as_MySQLdb()
 
-##必选
+-----
+
 #1.主项目目录下settings.py
 DATABASES = {}
 改成自己的本地数据库
@@ -21,10 +22,15 @@ python manage.py makemigrations
 #4.2. 命令行cd到项目目录下执行：
 python manage.py migrate
 
+#苹果电脑
+face_recognize_controller.py
+206行redicted_photo, predict_name_accuracy = detect_face(predict_photo, model, names, 1)
 
+-----
 #4.13 新增：
 1.更新算法
 2.setFace算法用户上传100张照片时，照片有效返回1，未检测出人脸返回0
+3.dashboard/check算法（检查Client文件夹里是否有100张照片 如果小于100清空文件夹，返回合格照片的数量，小于100就全删）
 
 
 #基本流程：
