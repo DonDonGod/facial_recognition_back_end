@@ -44,8 +44,11 @@ urlpatterns = [
     path('dashboard/train', views.trainModel),
     # 识别图片
     path('dashboard/rec', views.recImg),
+    # 表情识别
+    path('dashboard/emotion', views.emotion),
 
-
+    # 处理PYTHON代码
+    path('dashboard/ide', views.ide),
 
     # 展示所有识别后图片路径（字典）
     path('dashboard/path', views.showPath),
