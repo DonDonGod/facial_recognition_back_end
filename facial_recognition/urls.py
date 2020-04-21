@@ -34,6 +34,8 @@ urlpatterns = [
     # 删除用户
     path('dashboard/delete_user', views.deleteUser),
 
+    # 登录
+    path('dashboard/login', views.login),
 
 
     # 将拍的图存在Faces/username/Client文件夹
@@ -50,12 +52,10 @@ urlpatterns = [
     # 处理PYTHON代码
     path('dashboard/ide', views.ide),
 
-    # 展示所有识别后图片路径（字典）
-    path('dashboard/path', views.showPath),
 
     # 删除全部数据
     path('dashboard/delUser', views.delAllUser),
-    path('dashboard/delImg', views.delImg),
+    path('dashboard/delAdmin', views.delAllAdmin),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

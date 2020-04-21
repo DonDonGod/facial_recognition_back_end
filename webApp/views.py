@@ -7,7 +7,8 @@ import shutil
 
 
 from webApp.models import USER
-from webApp.models import IMG
+from webApp.models import ADMIN
+from webApp.models import SCORE
 
 from webApp.face_recognize_controller import face_predict
 from webApp.face_recognize_controller import face_train
@@ -23,7 +24,7 @@ BASE_DIR = BASE_DIR.replace('\\', '/')
 # Create your views here.
 
 def homePage(request):
-    return render(request,'homepage.html')
+    return render(request, 'homepage.html')
 
 def login(request):
     return render(request, 'login.html')
@@ -39,8 +40,13 @@ def addUser(request):
         a = request.POST.get('admin',None)
         b = request.POST.get('username',None)
         c = request.POST.get('password',None)
-        USER.objects.create(admin=a, username=b, password=c)
-        return HttpResponse("Successful add user: ", b)
+        if a == '0':
+            USER.objects.create(admin=a, username=b, password=c)
+            return HttpResponse("Successful add user")
+        if a == '1':
+            ADMIN.objects.create(admin=a, username=b, password=c)
+            return HttpResponse("Successful add admin")
+
     else:
         return redirect('http://127.0.0.1:8000/dashboard')
 
@@ -83,20 +89,36 @@ def deleteUser(request):
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
 
-# 没啥用
-# 返回所有new_img里图片的路径
-def showPath(request):
+# 登录
+def login(request):
     if request.method == 'POST':
-        rec_path = []
-        imgs = IMG.objects.all()
-        for new_img in imgs:
-            element = {}
-            old_path = os.path.join(BASE_DIR, 'media', new_img.img.name).replace('\\', '/')
-            new_path = os.path.join(BASE_DIR, 'media', new_img.img.name).replace('\\', '/').replace('img', 'new_img')
-            element['name'] = new_img.name
-            element['path'] = new_path
-            rec_path.append(element)
-        return HttpResponse(json.dumps(rec_path), content_type="application/json")
+        admin = request.POST.get('admin', None)
+        username = request.POST.get('username', None)
+        password = request.POST.get('password', None)
+        if admin == '0':
+            exist = USER.objects.filter(username=username)
+            if exist:
+                user = USER.objects.get(username=username)
+                p = user.password
+                if password == p:
+                    return HttpResponse('Login successfully')
+                else:
+                    return HttpResponse('Wrong username or password')
+            else:
+                return HttpResponse('The user does not exist')
+
+        if admin == '1':
+            exist = ADMIN.objects.filter(username=username)
+            if exist:
+                admin = ADMIN.objects.get(username=username)
+                p = admin.password
+                if password == p:
+                    return HttpResponse('Login successfully')
+                else:
+                    return HttpResponse('Wrong username or password')
+            else:
+                return HttpResponse('The admin does not exist')
+
     else:
         return redirect('http://127.0.0.1:8000/dashboard')
 
@@ -299,9 +321,9 @@ def ide(request):
 def delAllUser(request):
     USER.objects.all().delete()
     return HttpResponse('All users are deleted')
-def delImg(request):
-    IMG.objects.all().delete()
-    return HttpResponse('All images are deleted')
+def delAllAdmin(request):
+    ADMIN.objects.all().delete()
+    return HttpResponse('All admins are deleted')
 
 
 # 1.用户注册时前端拍10张照片，发给后端
