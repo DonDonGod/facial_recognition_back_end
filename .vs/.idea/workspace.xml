@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="a03d2299-a58b-4570-bc71-a6b96c5d253d" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="DatabaseView">
+    <option name="SHOW_INTERMEDIATE" value="true" />
+    <option name="GROUP_DATA_SOURCES" value="true" />
+    <option name="GROUP_SCHEMA" value="true" />
+    <option name="GROUP_CONTENTS" value="false" />
+    <option name="SORT_POSITIONED" value="false" />
+    <option name="SHOW_EMPTY_GROUPS" value="false" />
+    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
+    <option name="HIDDEN_KINDS">
+      <set />
+    </option>
+    <expand>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="fyp@localhost" type="feb32156:DbDataSourceImpl" />
+      </path>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="fyp@localhost" type="feb32156:DbDataSourceImpl" />
+        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
+      </path>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="fyp@localhost" type="feb32156:DbDataSourceImpl" />
+        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
+        <item name="fyp: schema" type="76f4a085:MysqlImplModel$Schema" />
+      </path>
+    </expand>
+    <select />
+  </component>
+  <component name="DjangoConsoleOptions" custom-start-script="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)">
+    <option name="myCustomStartScript" value="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="HTML File" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectId" id="1ZL1PNte2uL2X61iIZPvNU3NXEs" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="DatabaseDriversLRU" value="sqlite&#10;mysql" />
+    <property name="DefaultHtmlFileTemplate" value="HTML File" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../git_project/facial-recognition" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\STUDY\Degree Project\project\backend\facial_recognition\webApp\Faces" />
+      <recent name="C:\STUDY\Degree Project\project\backend\facial_recognition\media\test_origin" />
+      <recent name="C:\STUDY\Degree Project\project\backend\facial_recognition" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\STUDY\Degree Project\project\backend\facial_recognition\webApp\Faces" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="facial_recognition" type="Python.DjangoServer" factoryName="Django server">
+      <module name="facial_recognition" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+        <env name="DJANGO_SETTINGS_MODULE" value="facial_recognition.settings" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="launchJavascriptDebuger" value="false" />
+      <option name="port" value="8000" />
+      <option name="host" value="" />
+      <option name="additionalOptions" value="" />
+      <option name="browserUrl" value="" />
+      <option name="runTestServer" value="false" />
+      <option name="runNoReload" value="false" />
+      <option name="useCustomRunCommand" value="false" />
+      <option name="customRunCommand" value="" />
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="a03d2299-a58b-4570-bc71-a6b96c5d253d" name="Default Changelist" comment="" />
+      <created>1584603535998</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1584603535998</updated>
+      <workItem from="1584603546698" duration="365000" />
+      <workItem from="1584603945167" duration="871000" />
+      <workItem from="1584605557944" duration="28000" />
+      <workItem from="1584605604201" duration="1535000" />
+      <workItem from="1584607233993" duration="27096000" />
+      <workItem from="1584793060699" duration="9138000" />
+      <workItem from="1584802590634" duration="289000" />
+      <workItem from="1585020194767" duration="23972000" />
+      <workItem from="1585205660299" duration="13212000" />
+      <workItem from="1585312678549" duration="3051000" />
+      <workItem from="1585565559879" duration="30422000" />
+      <workItem from="1585831620856" duration="43747000" />
+      <workItem from="1586582518872" duration="5395000" />
+      <workItem from="1586597947766" duration="494000" />
+      <workItem from="1586598468516" duration="329000" />
+      <workItem from="1586598830650" duration="118000" />
+      <workItem from="1586598971342" duration="33870000" />
+      <workItem from="1587209328225" duration="14129000" />
+      <workItem from="1587390758704" duration="42703000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="800" y="179" key="#Notifications" timestamp="1587037728673">
+      <screen x="0" y="0" width="1620" height="1040" />
+    </state>
+    <state x="800" y="179" key="#Notifications/0.0.1620.1040@0.0.1620.1040" timestamp="1587037728673" />
+    <state x="808" y="179" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1584799648390">
+      <screen x="0" y="0" width="1620" height="1040" />
+    </state>
+    <state x="808" y="179" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1620.1040@0.0.1620.1040" timestamp="1584799648389" />
+    <state x="946" y="323" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1585765114796">
+      <screen x="0" y="0" width="1620" height="1040" />
+    </state>
+    <state x="946" y="323" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1620.1040@0.0.1620.1040" timestamp="1585765114796" />
+    <state x="541" y="267" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1585746140766">
+      <screen x="0" y="0" width="1620" height="1040" />
+    </state>
+    <state x="541" y="267" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1620.1040@0.0.1620.1040" timestamp="1585746140766" />
+    <state x="996" y="275" key="FileChooserDialogImpl" timestamp="1586098318867">
+      <screen x="0" y="0" width="1620" height="1040" />
+    </state>
+    <state x="996" y="275" key="FileChooserDialogImpl/0.0.1620.1040@0.0.1620.1040" timestamp="1586098318867" />
+    <state width="1578" height="278" key="GridCell.Tab.0.bottom" timestamp="1585316109564">
+      <screen x="0" y="0" width="1620" height="1040" />
+    </state>
+    <state width="1578" height="278" key="GridCell.Tab.0.bottom/0.0.1620.1040@0.0.1620.1040" timestamp="1585316109564" />
+    <state width="1578" height="278" key="GridCell.Tab.0.center" timestamp="1585316109563">
+      <screen x="0" y="0" width="1620" height="1040" />
+    </state>
+    <state width="1578" height="278" key="GridCell.Tab.0.center/0.0.1620.1040@0.0.1620.1040" timestamp="1585316109563" />
+    <state width="1578" height="278" key="GridCell.Tab.0.left" timestamp="1585316109563">
+      <screen x="0" y="0" width="1620" height="1040" />
+    </state>
+    <state width="1578" height="278" key="GridCell.Tab.0.left/0.0.1620.1040@0.0.1620.1040" timestamp="1585316109563" />
+    <state width="1578" height="278" key="GridCell.Tab.0.right" timestamp="1585316109563">
+      <screen x="0" y="0" width="1620" height="1040" />
+    </state>
+    <state width="1578" height="278" key="GridCell.Tab.0.right/0.0.1620.1040@0.0.1620.1040" timestamp="1585316109563" />
+    <state width="214" height="477" key="HiddenNamespacesPopup" timestamp="1584613736062">
+      <screen x="0" y="0" width="1620" height="1040" />
+    </state>
+    <state width="214" height="477" key="HiddenNamespacesPopup/0.0.1620.1040@0.0.1620.1040" timestamp="1584613736062" />
+    <state x="1075" y="410" width="337" height="234" key="com.intellij.database.actions.DdlActions$DeleteProvider2$1" timestamp="1587456862069">
+      <screen x="0" y="0" width="1620" height="1040" />
+    </state>
+    <state x="1075" y="410" width="337" height="234" key="com.intellij.database.actions.DdlActions$DeleteProvider2$1/0.0.1620.1040@0.0.1620.1040" timestamp="1587456862069" />
+    <state x="500" y="345" key="com.intellij.ide.util.TipDialog" timestamp="1587390788794">
+      <screen x="0" y="0" width="1620" height="1040" />
+    </state>
+    <state x="500" y="345" key="com.intellij.ide.util.TipDialog/0.0.1620.1040@0.0.1620.1040" timestamp="1587390788794" />
+    <state x="6" y="193" width="637" height="801" key="find.popup" timestamp="1584607067774">
+      <screen x="0" y="0" width="1620" height="1040" />
+    </state>
+    <state x="6" y="193" width="637" height="801" key="find.popup/0.0.1620.1040@0.0.1620.1040" timestamp="1584607067774" />
+    <state x="881" y="231" width="672" height="678" key="search.everywhere.popup" timestamp="1586936679484">
+      <screen x="0" y="0" width="1620" height="1040" />
+    </state>
+    <state x="881" y="231" width="672" height="678" key="search.everywhere.popup/0.0.1620.1040@0.0.1620.1040" timestamp="1586936679484" />
+  </component>
+</project>
