@@ -10,6 +10,7 @@ from webApp.models import USER
 from webApp.models import ADMIN
 from webApp.models import EMOTION
 from webApp.models import WARNING
+from webApp.models import WARNING_PIC
 
 from webApp.face_recognize_controller import face_predict
 from webApp.face_recognize_controller import face_train
@@ -27,9 +28,6 @@ warning_list = []
 def homePage(request):
     return render(request, 'homepage.html')
 
-def login(request):
-    return render(request, 'login.html')
-
 def dashboard(request):
     return render(request, 'dashboard.html')
 
@@ -39,9 +37,9 @@ def dashboard(request):
 # 数据库操作
 def addUser(request):
     if request.method == 'POST':
-        b = request.POST.get('username',None)
-        c = request.POST.get('password',None)
-        d = request.POST.get('student_number',None)
+        b = request.POST.get('username', None)
+        c = request.POST.get('password', None)
+        d = request.POST.get('student_number', None)
         USER.objects.create(username=b, password=c, student_number=d)
         return HttpResponse("Successful add user")
     else:
@@ -50,45 +48,32 @@ def addUser(request):
 
 def addAdmin(request):
     if request.method == 'POST':
-        b = request.POST.get('username',None)
-        c = request.POST.get('password',None)
+        b = request.POST.get('username', None)
+        c = request.POST.get('password', None)
         ADMIN.objects.create(username=b, password=c)
         return HttpResponse("Successful add admin")
     else:
         return redirect('http://127.0.0.1:8000/dashboard')
 
 
-def findUser(request):
-    username = request.POST.get('username', None)
-    result = USER.objects.filter(username = username)
-    arr = []
-    for i in result:
-        content = {'admin': i.admin, 'username': i.username, 'password': i.password}
-        arr.append(content)
-    if arr:
-        return HttpResponse(arr)
-    else:
-        return HttpResponse("The user does not exist")
-
-
 def modifyUser(request):
     username = request.POST.get('username', None)
     password = request.POST.get('password', None)
-    exist = USER.objects.filter(username=username)
+    exist = USER.objects.filter(student_number=username)
     if exist:
-        user = USER.objects.get(username=username)
+        user = USER.objects.get(student_number=username)
         user.password = password
         user.save()
-        return HttpResponse("modification complete: ",username)
+        return HttpResponse("modification complete: ", username)
     else:
         return HttpResponse("The user does not exist")
 
 
 def deleteUser(request):
     username = request.POST.get('username', None)
-    exist = USER.objects.filter(username = username)
+    exist = USER.objects.filter(student_number=username)
     if exist:
-        user = USER.objects.get(username = username)
+        user = USER.objects.get(student_number=username)
         user.delete()
         return HttpResponse("deletion complete")
     else:
@@ -156,6 +141,51 @@ def student_list(request):
         return redirect('http://127.0.0.1:8000/dashboard')
 
 
+def student_info(request):
+    if request.method == 'POST':
+        data = {}
+        username = request.POST.get('username', None)
+        exist = USER.objects.filter(student_number=username)
+        if exist:
+            data1 = {}
+            student = USER.objects.get(student_number=username)
+            data1['name'] = student.username
+            data1['student_number'] = student.student_number
+            data1['password'] = student.password
+            data1['model_loss'] = student.model_loss
+            data1['model_acc'] = student.model_acc
+            data[0] = data1
+        else:
+            data[0] = 'The user does not exist'
+        return JsonResponse(data)
+    else:
+        return redirect('http://118.178.254.65/admin')
+
+
+def exam_result(request):
+    if request.method == 'POST':
+        username = request.POST.get('username', None)
+        exist1 = EMOTION.objects.filter(student_number=username)
+        data = {}
+        data1 = {}
+        if exist1:
+            for i in [0, 1, 2, 3, 4]:
+                data2 = {}
+                result = EMOTION.objects.get(student_number=username, question=i)
+                data2['result'] = result.result
+                data2['emotion'] = result.emotion
+                data1[i] = data2
+        else:
+            data1[0] = 'No exam record'
+        data[0] = data1
+        return JsonResponse(data)
+    else:
+        return redirect('http://118.178.254.65/admin')
+
+
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+
+
 # 记录警告次数及分数
 def warning(flag):
     if flag == 0:
@@ -192,6 +222,8 @@ def warning_calculation(warn_photo_list):
     for i in range(0, 5):
         score_total += warn_sum_list[i] * score_each * priority[i]  # 警告得分
         # print(score_total)
+    if score_total > 1:
+        score_total = 1
     return score_total  # 返回该学生有作弊嫌疑的可能性，有些情况下会大于100%
     # 当作弊嫌疑达到50%时，请人工查看拍摄图片
 
@@ -205,9 +237,41 @@ def warning_picture(request):
         data = {}
         index = 0
         for i in all_list:
-            p = os.path.join(BASE_DIR, 'media/test_predict', username, 'warning', i).replace('\\', '/')
-            data[index] = p
+            data1 = {}
+            p = os.path.join('facial_recognition/media/test_predict', username, 'warning', i).replace('\\', '/')
+            p = 'http://118.178.254.65/' + p
+            print(p)
+            exist = WARNING_PIC.objects.filter(pic_name=i)
+            if exist:
+                pic = WARNING_PIC.objects.get(pic_name=i)
+                data1['url'] = p
+                data1['acc'] = float(pic.acc)
+            else:
+                data1['url'] = p
+                data1['acc'] = 0.010101
+            data[index] = data1
             index += 1
+        return JsonResponse(data)
+    else:
+        return redirect('http://127.0.0.1:8000/dashboard')
+
+
+# 返回本人注册照片路径
+def original_picture(request):
+    if request.method == 'POST':
+        username = request.POST.get('username', None)
+        pic_path = os.path.join(BASE_DIR, 'webApp/Faces', username, 'Client').replace('\\', '/')
+        all_list = os.listdir(pic_path)
+        data = {}
+        index = 0
+        for i in all_list:
+            if index < 10:
+                p = os.path.join('facial_recognition/webApp/Faces', username, 'Client', i).replace('\\', '/')
+                p = 'http://118.178.254.65/' + p
+                data[index] = p
+                index += 1
+            else:
+                break
         return JsonResponse(data)
     else:
         return redirect('http://127.0.0.1:8000/dashboard')
@@ -218,8 +282,12 @@ def finish(request):
     if request.method == 'POST':
         username = request.POST.get('username', None)
         # 东哥算法放这里
-        times = len(warning_list)
+        path = os.path.join(BASE_DIR, 'media/test_predict', username, 'warning').replace('\\', '/')
+        all_list = os.listdir(path)
+        times = len(all_list)
         score = warning_calculation(warning_list)
+        print('times: ', times)
+        print('score: ', score)
         # 上传数据库
         exist = WARNING.objects.filter(student_number=username)
         if exist:
@@ -232,6 +300,32 @@ def finish(request):
         # 清空warning_list
         warning_list.clear()
         return HttpResponse("upload warning_list successfully")
+    else:
+        return redirect('http://127.0.0.1:8000/dashboard')
+
+
+def analysis(request):
+    if request.method == 'POST':
+        data = {}
+        data1 = {}
+        for i in [0,1,2,3,4]:
+            data2 = {}
+            true = EMOTION.objects.filter(result='true', question=i).count()
+            false = EMOTION.objects.filter(result='false', question=i).count()
+            acc = true/(true+false)
+            data2['acc'] = acc
+
+            happy = EMOTION.objects.filter(emotion='happy', question=i).count()
+            neutral = EMOTION.objects.filter(emotion='neutral', question=i).count()
+            angry = EMOTION.objects.filter(emotion='angry', question=i).count()
+            total = happy + neutral + angry
+            data2['happy'] = happy/total
+            data2['neutral'] = neutral/total
+            data2['angry'] = angry/total
+
+            data1[i] = data2
+        data[0] = data1
+        return JsonResponse(data)
     else:
         return redirect('http://127.0.0.1:8000/dashboard')
 
@@ -300,7 +394,7 @@ def trainModel(request):
         if not os.path.exists(model_path):
             os.mkdir(model_path)
 
-        face_train(face_path,100,model_path)
+        face_train(face_path, 100, model_path)
         return HttpResponse("train successfully")
     else:
         return redirect('http://127.0.0.1:8000/dashboard')
@@ -336,6 +430,7 @@ def recImg(request):
 
         if acc < 0.5:
             shutil.copyfile(all_path1, warning_path1)
+            WARNING_PIC.objects.create(pic_name=username1, acc=acc)
             flag = 1
         else:
             flag = 0
@@ -434,7 +529,7 @@ def ide(request):
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
-# 删除所有数据
+# 删除所有数据(清表)
 def delAllUser(request):
     USER.objects.all().delete()
     return HttpResponse('All users are deleted')
@@ -447,3 +542,7 @@ def delAllWarning(request):
 def delAllEmotion(request):
     EMOTION.objects.all().delete()
     return HttpResponse('All emotions are deleted')
+def delAllPic(request):
+    WARNING_PIC.objects.all().delete()
+    return HttpResponse('All pics are deleted')
+

@@ -25,8 +25,8 @@ SECRET_KEY = 'x8ac8$m7g%6+#@t+k$84e5f1z9zv2b^oo=co+txhrux7pw-idb'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ['*']
+# '118.178.254.65', 'localhost', '0.0.0.0:8000', '127.0.0.1'
 
 # Application definition
 
@@ -86,16 +86,29 @@ WSGI_APPLICATION = 'facial_recognition.wsgi.application'
 #     }
 # }
 
+# 本地测试
 DATABASES = {
      'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'fyp',
-        'HOST':'127.0.0.1',
-        'PORT':3306,
-        'USER':'root',
-        'PASSWORD':'123456',
+        'HOST': '127.0.0.1',
+        'PORT': 3306,
+        'USER': 'root',
+        'PASSWORD': '123456',
     }
 }
+
+# 云上部署
+# DATABASES = {
+#      'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'backend',
+#         'HOST': 'localhost',
+#         'PORT': 3306,
+#         'USER': 'backend',
+#         'PASSWORD': '123456',
+#     }
+# }
 
 
 # Password validation
@@ -137,6 +150,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media').replace('\\', '/')     #设置静态文件路径为主目录下的media文件夹
 MEDIA_URL = '/media/'
 

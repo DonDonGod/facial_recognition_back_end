@@ -28,8 +28,6 @@ urlpatterns = [
     # 添加用户
     path('dashboard/add_user', views.addUser),
     path('dashboard/add_admin', views.addAdmin),
-    # 查找用户
-    path('dashboard/find_user', views.findUser),
     # 修改用户
     path('dashboard/modify_user', views.modifyUser),
     # 删除用户
@@ -40,10 +38,19 @@ urlpatterns = [
 
     # 返回全部学生
     path('dashboard/student_list', views.student_list),
+    # 返回某个学生个人信息
+    path('dashboard/student_info', views.student_info),
+    # 返回某个学生考试及表情信息
+    path('dashboard/exam_result', views.exam_result),
+
+    # 返回本人正常图片
+    path('dashboard/origin', views.original_picture),
     # 返回warning照片
     path('dashboard/warning', views.warning_picture),
     # 结束考试，上传数据至database
     path('dashboard/finish', views.finish),
+    # 分析考试数据
+    path('dashboard/analysis', views.analysis),
 
 
     # 将拍的图存在Faces/username/Client文件夹
@@ -65,6 +72,7 @@ urlpatterns = [
     path('dashboard/delAdmin', views.delAllAdmin),
     path('dashboard/delWarning', views.delAllWarning),
     path('dashboard/delEmotion', views.delAllEmotion),
+    path('dashboard/delPic', views.delAllPic),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
