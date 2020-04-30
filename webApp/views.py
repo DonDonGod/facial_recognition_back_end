@@ -171,9 +171,14 @@ def exam_result(request):
         if exist1:
             for i in [0, 1, 2, 3, 4]:
                 data2 = {}
-                result = EMOTION.objects.get(student_number=username, question=i)
-                data2['result'] = result.result
-                data2['emotion'] = result.emotion
+                exist = EMOTION.objects.filter(student_number=username, question=i)
+                if exist:
+                    result = EMOTION.objects.get(student_number=username, question=i)
+                    data2['result'] = result.result
+                    data2['emotion'] = result.emotion
+                else:
+                    data2['result'] = "No exam record"
+                    data2['emotion'] = "No exam record"
                 data1[i] = data2
         else:
             data1[0] = 'No exam record'
