@@ -29,6 +29,8 @@ pymysql.install_as_MySQLdb()<br>
 3.source /www/wwwroot/backend/facial_recognition/backend_venv/bin/activate<br>
 4.cd /www/wwwroot/backend/facial_recognition<br>
 5.python manage.py runserver 0:8000<br>
+6.永久运行 nohup python manage.py runserver 0:8000 &<br>
+7.关闭永久运行 lsof -i:8000 找进程ID，kill -9 进程ID
 -----
 #5.1 新增：
 1.已成功部署到云，启动方法见上(记得settings改数据库)<br>
@@ -38,7 +40,7 @@ pymysql.install_as_MySQLdb()<br>
 5.新增exam_result返回某个学生考试结果及表情信息[dashboard/exam_result]参量(username学号)<br>
 6.新增analysis返回每题答题准确度与表情占比[dashboard/analysis]: 无参量<br>
 7.返回warning图片及准确度 [dashboard/warning]: 参量(username学号)<br>
-8.返回本人（注册时）图片 [dashboard/origin]: 参量(username学号<br>
+8.返回本人（注册时）图片 [dashboard/origin]: 参量(username学号)<br>
 -----
 #基本流程：
 1.用户注册时自动拍100张照片 存在Faces里对应用户名的Client文件夹下<br>

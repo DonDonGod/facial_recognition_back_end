@@ -33,6 +33,11 @@ class WARNING_PIC(models.Model):
     pic_name = models.CharField(max_length=20)
     acc = models.FloatField(default='0.01')
 
+class WARNING_LIST(models.Model):
+    student_number = models.IntegerField(default='16200001')
+    list = models.CharField(max_length=1000)
+
+
 # python manage.py makemigrations
 # python manage.py migrate
 

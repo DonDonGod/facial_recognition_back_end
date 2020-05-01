@@ -11,6 +11,7 @@ from webApp.models import ADMIN
 from webApp.models import EMOTION
 from webApp.models import WARNING
 from webApp.models import WARNING_PIC
+from webApp.models import WARNING_LIST
 
 from webApp.face_recognize_controller import face_predict
 from webApp.face_recognize_controller import face_train
@@ -22,7 +23,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_DIR = BASE_DIR.replace('\\', '/')
-warning_list = []
+# warning_list = []
 
 # Create your views here.
 def homePage(request):
@@ -43,7 +44,7 @@ def addUser(request):
         USER.objects.create(username=b, password=c, student_number=d)
         return HttpResponse("Successful add user")
     else:
-        return redirect('http://127.0.0.1:8000/dashboard')
+        return redirect('http://118.178.254.65')
 
 
 def addAdmin(request):
@@ -53,7 +54,7 @@ def addAdmin(request):
         ADMIN.objects.create(username=b, password=c)
         return HttpResponse("Successful add admin")
     else:
-        return redirect('http://127.0.0.1:8000/dashboard')
+        return redirect('http://118.178.254.65')
 
 
 def modifyUser(request):
@@ -111,7 +112,7 @@ def login(request):
             else:
                 return HttpResponse('The admin does not exist')
     else:
-        return redirect('http://127.0.0.1:8000/dashboard')
+        return redirect('http://118.178.254.65')
 
 
 # 返回所有学生的信息
@@ -138,35 +139,36 @@ def student_list(request):
             index += 1
         return JsonResponse(data)
     else:
-        return redirect('http://127.0.0.1:8000/dashboard')
+        return redirect('http://118.178.254.65')
 
 
 def student_info(request):
     if request.method == 'POST':
-        data = {}
         username = request.POST.get('username', None)
         exist = USER.objects.filter(student_number=username)
+        data1 = {}
         if exist:
-            data1 = {}
             student = USER.objects.get(student_number=username)
             data1['name'] = student.username
             data1['student_number'] = student.student_number
             data1['password'] = student.password
             data1['model_loss'] = student.model_loss
             data1['model_acc'] = student.model_acc
-            data[0] = data1
         else:
-            data[0] = 'The user does not exist'
-        return JsonResponse(data)
+            data1['name'] = 'The user does not exist'
+            data1['student_number'] = 'The user does not exist'
+            data1['password'] = 'The user does not exist'
+            data1['model_loss'] = 'The user does not exist'
+            data1['model_acc'] = 'The user does not exist'
+        return JsonResponse(data1)
     else:
-        return redirect('http://118.178.254.65/admin')
+        return redirect('http://118.178.254.65')
 
 
 def exam_result(request):
     if request.method == 'POST':
         username = request.POST.get('username', None)
         exist1 = EMOTION.objects.filter(student_number=username)
-        data = {}
         data1 = {}
         if exist1:
             for i in [0, 1, 2, 3, 4]:
@@ -176,8 +178,8 @@ def exam_result(request):
                     result = EMOTION.objects.get(student_number=username, question=i)
                     data2['result'] = result.result
                     data2['emotion'] = result.emotion
-                    i = result.pic_name
-                    p = os.path.join('facial_recognition/media/emotion_predict', username, i).replace('\\', '/')
+                    name = result.pic_name
+                    p = os.path.join('facial_recognition/media/emotion_predict', username, name).replace('\\', '/')
                     p = 'http://118.178.254.65/' + p
                     data2['url'] = p
                     data2['emotion_acc'] = result.acc
@@ -188,30 +190,49 @@ def exam_result(request):
                     data2['emotion_acc'] = "No exam record"
                 data1[i] = data2
         else:
-            data1[0] = 'No exam record'
-        data[0] = data1
-        return JsonResponse(data)
+            for i in [0, 1, 2, 3, 4]:
+                data2 = {}
+                data2['result'] = "The user does not exist"
+                data2['emotion'] = "The user does not exist"
+                data2['url'] = "The user does not exist"
+                data2['emotion_acc'] = "The user does not exist"
+                data1[i] = data2
+        return JsonResponse(data1)
     else:
-        return redirect('http://118.178.254.65/admin')
+        return redirect('http://118.178.254.65')
 
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
 
 # 记录警告次数及分数
-def warning(flag):
-    if flag == 0:
-        warning_list.append(0)
-    elif flag == 1:
-        warning_list.append(1)
+def warning(flag, username):
+    exist = WARNING_LIST.objects.filter(student_number=username)
+    if exist:
+        a = WARNING_LIST.objects.get(student_number=username)
+        slist = list(a.list)
+        if flag == 0:
+            slist.append('0')
+        elif flag == 1:
+            slist.append('1')
+        else:
+            print('######False######')
+        s = "".join(slist)
+        a.list = s
+        print(s)
+        a.save()
     else:
-        print('######False######')
-
+        WARNING_LIST.objects.create(student_number=username, list='0')
 
 def warning_calculation(warn_photo_list):
+
+    l = list(warn_photo_list)
+    warn_photo_list = list(map(int, l))
+    print(warn_photo_list)
+
     score_total = 0
     warn_num = len(warn_photo_list)  # list总大小
-    print(warn_num)
+    # print(warn_num)
     score_each = 1 / warn_num  # 每份得分
     priority = [2, 10, 20, 30, 50]  # 每种警告得分权重
     warn_sum_list = [0, 0, 0, 0, 0]
@@ -265,7 +286,7 @@ def warning_picture(request):
             index += 1
         return JsonResponse(data)
     else:
-        return redirect('http://127.0.0.1:8000/dashboard')
+        return redirect('http://118.178.254.65')
 
 
 # 返回本人注册照片路径
@@ -286,7 +307,7 @@ def original_picture(request):
                 break
         return JsonResponse(data)
     else:
-        return redirect('http://127.0.0.1:8000/dashboard')
+        return redirect('http://118.178.254.65')
 
 
 # 结束考试，上传警告信息
@@ -296,10 +317,18 @@ def finish(request):
         # 东哥算法放这里
         path = os.path.join(BASE_DIR, 'media/test_predict', username, 'warning').replace('\\', '/')
         all_list = os.listdir(path)
-        times = len(all_list)
-        score = warning_calculation(warning_list)
+
+        exist2 = WARNING_LIST.objects.filter(student_number=username)
+        if exist2:
+            a = WARNING_LIST.objects.get(student_number=username)
+            times = len(all_list)
+            score = warning_calculation(a.list)
+        else:
+            times = len(all_list)
+            score = 1
         print('times: ', times)
         print('score: ', score)
+
         # 上传数据库
         exist = WARNING.objects.filter(student_number=username)
         if exist:
@@ -309,16 +338,20 @@ def finish(request):
             student.save()
         else:
             WARNING.objects.create(student_number=username, times=times, score=score)
-        # 清空warning_list
-        warning_list.clear()
+        # # 清空warning_list
+        exist1 = WARNING_LIST.objects.filter(student_number=username)
+        if exist1:
+            a = WARNING_LIST.objects.get(student_number=username)
+            a.list = '0'
+            a.save()
+        # warning_list.clear()
         return HttpResponse("upload warning_list successfully")
     else:
-        return redirect('http://127.0.0.1:8000/dashboard')
+        return redirect('http://118.178.254.65')
 
 
 def analysis(request):
     if request.method == 'POST':
-        data = {}
         data1 = {}
         for i in [0, 1, 2, 3, 4]:
             data2 = {}
@@ -344,10 +377,9 @@ def analysis(request):
             data2['emotion_surprise'] = surprise / total
 
             data1[i] = data2
-        data[0] = data1
-        return JsonResponse(data)
+        return JsonResponse(data1)
     else:
-        return redirect('http://127.0.0.1:8000/dashboard')
+        return redirect('http://118.178.254.65')
 
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
@@ -417,7 +449,7 @@ def trainModel(request):
         face_train(face_path, 100, model_path)
         return HttpResponse("train successfully")
     else:
-        return redirect('http://127.0.0.1:8000/dashboard')
+        return redirect('http://118.178.254.65')
 
 
 # 人脸识别算法2.0
@@ -454,11 +486,11 @@ def recImg(request):
             flag = 1
         else:
             flag = 0
-        warning(flag)
-        print(warning_list)
+        warning(flag, username)
+        # print(warning_list)
         return HttpResponse(acc)
     else:
-        return redirect('http://127.0.0.1:8000/dashboard')
+        return redirect('http://118.178.254.65')
 
 
 # 表情识别算法
@@ -484,42 +516,92 @@ def emotion(request):
         type, acc = emotion_predict(model_path, old_path, new_path)
         acc = float(acc)
 
+        exist = EMOTION.objects.filter(student_number=username, question=question)
+
         if type == -1:
             data = {'type':'No faces detected', 'acc': acc}
             os.remove(old_path)
             os.remove(new_path)
             return JsonResponse(data)
         if type == 0:
-            data = {'type': 'angry', 'acc': acc}
-            EMOTION.objects.create(question=question, student_number=username, emotion='angry', result=result, pic_name=username1, acc=acc)
-            return JsonResponse(data)
+            if exist:
+                a = EMOTION.objects.get(student_number=username, question=question)
+                a.emotion = 'angry'
+                a.acc = acc
+                a.pic_name = username1
+                a.result = result
+            else:
+                data = {'type': 'angry', 'acc': acc}
+                EMOTION.objects.create(question=question, student_number=username, emotion='angry', result=result, pic_name=username1, acc=acc)
+                return JsonResponse(data)
         if type == 1:
-            data = {'type': 'disgust', 'acc': acc}
-            EMOTION.objects.create(question=question, student_number=username, emotion='disgust', result=result, pic_name=username1, acc=acc)
-            return JsonResponse(data)
+            if exist:
+                a = EMOTION.objects.get(student_number=username, question=question)
+                a.emotion = 'disgust'
+                a.acc = acc
+                a.pic_name = username1
+                a.result = result
+            else:
+                data = {'type': 'disgust', 'acc': acc}
+                EMOTION.objects.create(question=question, student_number=username, emotion='disgust', result=result, pic_name=username1, acc=acc)
+                return JsonResponse(data)
         if type == 2:
-            data = {'type': 'fear', 'acc': acc}
-            EMOTION.objects.create(question=question, student_number=username, emotion='fear', result=result, pic_name=username1, acc=acc)
-            return JsonResponse(data)
+            if exist:
+                a = EMOTION.objects.get(student_number=username, question=question)
+                a.emotion = 'fear'
+                a.acc = acc
+                a.pic_name = username1
+                a.result = result
+            else:
+                data = {'type': 'fear', 'acc': acc}
+                EMOTION.objects.create(question=question, student_number=username, emotion='fear', result=result, pic_name=username1, acc=acc)
+                return JsonResponse(data)
         if type == 3:
-            data = {'type': 'happy', 'acc': acc}
-            EMOTION.objects.create(question=question, student_number=username, emotion='happy', result=result, pic_name=username1, acc=acc)
-            return JsonResponse(data)
+            if exist:
+                a = EMOTION.objects.get(student_number=username, question=question)
+                a.emotion = 'happy'
+                a.acc = acc
+                a.pic_name = username1
+                a.result = result
+            else:
+                data = {'type': 'happy', 'acc': acc}
+                EMOTION.objects.create(question=question, student_number=username, emotion='happy', result=result, pic_name=username1, acc=acc)
+                return JsonResponse(data)
         if type == 4:
-            data = {'type': 'sad', 'acc': acc}
-            EMOTION.objects.create(question=question, student_number=username, emotion='sad', result=result, pic_name=username1, acc=acc)
-            return JsonResponse(data)
+            if exist:
+                a = EMOTION.objects.get(student_number=username, question=question)
+                a.emotion = 'sad'
+                a.acc = acc
+                a.pic_name = username1
+                a.result = result
+            else:
+                data = {'type': 'sad', 'acc': acc}
+                EMOTION.objects.create(question=question, student_number=username, emotion='sad', result=result, pic_name=username1, acc=acc)
+                return JsonResponse(data)
         if type == 5:
-            data = {'type': 'surprise', 'acc': acc}
-            EMOTION.objects.create(question=question, student_number=username, emotion='surprise', result=result, pic_name=username1, acc=acc)
-            return JsonResponse(data)
+            if exist:
+                a = EMOTION.objects.get(student_number=username, question=question)
+                a.emotion = 'surprise'
+                a.acc = acc
+                a.pic_name = username1
+                a.result = result
+            else:
+                data = {'type': 'surprise', 'acc': acc}
+                EMOTION.objects.create(question=question, student_number=username, emotion='surprise', result=result, pic_name=username1, acc=acc)
+                return JsonResponse(data)
         if type == 6:
-            data = {'type': 'neutral', 'acc': acc}
-            EMOTION.objects.create(question=question, student_number=username, emotion='neutral', result=result, pic_name=username1, acc=acc)
-            return JsonResponse(data)
-
+            if exist:
+                a = EMOTION.objects.get(student_number=username, question=question)
+                a.emotion = 'neutral'
+                a.acc = acc
+                a.pic_name = username1
+                a.result = result
+            else:
+                data = {'type': 'neutral', 'acc': acc}
+                EMOTION.objects.create(question=question, student_number=username, emotion='neutral', result=result, pic_name=username1, acc=acc)
+                return JsonResponse(data)
     else:
-        return redirect('http://127.0.0.1:8000/dashboard')
+        return redirect('http://118.178.254.65')
 
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
@@ -544,7 +626,7 @@ def ide(request):
         output = run_code(code)
         return HttpResponse(output)
     else:
-        return redirect('http://127.0.0.1:8000/dashboard')
+        return redirect('http://118.178.254.65')
 
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
