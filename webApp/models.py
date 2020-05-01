@@ -20,6 +20,8 @@ class EMOTION(models.Model):
     student_number = models.IntegerField(default='16200001')
     emotion = models.CharField(max_length=20)
     result = models.CharField(max_length=20)
+    pic_name = models.CharField(max_length=20)
+    acc = models.FloatField(default='0.01')
 
 class WARNING(models.Model):
     student_number = models.IntegerField(default='16200001')
@@ -27,6 +29,7 @@ class WARNING(models.Model):
     score = models.FloatField(default='1.0')
 
 class WARNING_PIC(models.Model):
+    student_number = models.IntegerField(default='16200001')
     pic_name = models.CharField(max_length=20)
     acc = models.FloatField(default='0.01')
 

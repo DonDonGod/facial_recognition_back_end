@@ -30,12 +30,12 @@ pymysql.install_as_MySQLdb()<br>
 4.cd /www/wwwroot/backend/facial_recognition<br>
 5.python manage.py runserver 0:8000<br>
 -----
-#4.30 新增：
+#5.1 新增：
 1.已成功部署到云，启动方法见上(记得settings改数据库)<br>
-2.USER表多了model_loss和model_acc<br>
-3.新建WARNING_PIC表，用来存warning图片名称与其对应的准确度<br>
-4.新增student_info方法[dashboard/student_info]: 参量(username学号)<br>
-5.新增exam_result返回某个学生考试及表情信息[dashboard/exam_result]参量(username学号)<br>
+2.USER表多了model_loss和model_acc; EMOTION表多了pic_name和acc<br>
+3.新建WARNING_PIC表，用来存某个学生warning图片名称与其对应的准确度<br>
+4.新增student_info方法返回学生基本信息[dashboard/student_info]: 参量(username学号)<br>
+5.新增exam_result返回某个学生考试结果及表情信息[dashboard/exam_result]参量(username学号)<br>
 6.新增analysis返回每题答题准确度与表情占比[dashboard/analysis]: 无参量<br>
 7.返回warning图片及准确度 [dashboard/warning]: 参量(username学号)<br>
 8.返回本人（注册时）图片 [dashboard/origin]: 参量(username学号<br>
@@ -50,11 +50,12 @@ pymysql.install_as_MySQLdb()<br>
 2.准确度50以下为warning， 连续warning提升等级，所有warning照片都存<br>
 3.写一个计数器函数存warninglist,考试结束上传数据库<br>
 4.表情识别：点nextpage比对结果并拍照并存表<br>
-5.EMOTION表（question，student_number，emotion，result）<br>
+5.EMOTION表（question，student_number，emotion，result, pic_name, acc）<br>
 6.USER表 (username，student_number，password, model_loss, model_acc）<br>
 7.ADMIN表（username，password）<br>
 8.WARNING表（student_number，times, score）<br>
-9.WARNING_PIC表（pic_name, acc）
+9.WARNING_PIC表（student_number, pic_name, acc）
+
 
 
 

@@ -176,9 +176,16 @@ def exam_result(request):
                     result = EMOTION.objects.get(student_number=username, question=i)
                     data2['result'] = result.result
                     data2['emotion'] = result.emotion
+                    i = result.pic_name
+                    p = os.path.join('facial_recognition/media/emotion_predict', username, i).replace('\\', '/')
+                    p = 'http://118.178.254.65/' + p
+                    data2['url'] = p
+                    data2['emotion_acc'] = result.acc
                 else:
                     data2['result'] = "No exam record"
                     data2['emotion'] = "No exam record"
+                    data2['url'] = "No exam record"
+                    data2['emotion_acc'] = "No exam record"
                 data1[i] = data2
         else:
             data1[0] = 'No exam record'
@@ -246,9 +253,9 @@ def warning_picture(request):
             p = os.path.join('facial_recognition/media/test_predict', username, 'warning', i).replace('\\', '/')
             p = 'http://118.178.254.65/' + p
             print(p)
-            exist = WARNING_PIC.objects.filter(pic_name=i)
+            exist = WARNING_PIC.objects.filter(pic_name=i, student_number=username)
             if exist:
-                pic = WARNING_PIC.objects.get(pic_name=i)
+                pic = WARNING_PIC.objects.get(pic_name=i, student_number=username)
                 data1['url'] = p
                 data1['acc'] = float(pic.acc)
             else:
@@ -313,20 +320,28 @@ def analysis(request):
     if request.method == 'POST':
         data = {}
         data1 = {}
-        for i in [0,1,2,3,4]:
+        for i in [0, 1, 2, 3, 4]:
             data2 = {}
             true = EMOTION.objects.filter(result='true', question=i).count()
             false = EMOTION.objects.filter(result='false', question=i).count()
             acc = true/(true+false)
-            data2['acc'] = acc
+            data2['correct'] = acc
 
             happy = EMOTION.objects.filter(emotion='happy', question=i).count()
             neutral = EMOTION.objects.filter(emotion='neutral', question=i).count()
             angry = EMOTION.objects.filter(emotion='angry', question=i).count()
-            total = happy + neutral + angry
-            data2['happy'] = happy/total
-            data2['neutral'] = neutral/total
-            data2['angry'] = angry/total
+            sad = EMOTION.objects.filter(emotion='sad', question=i).count()
+            fear = EMOTION.objects.filter(emotion='fear', question=i).count()
+            disgust = EMOTION.objects.filter(emotion='disgust', question=i).count()
+            surprise = EMOTION.objects.filter(emotion='surprise', question=i).count()
+            total = happy + neutral + angry + sad + fear + disgust + surprise
+            data2['emotion_happy'] = happy / total
+            data2['emotion_neutral'] = neutral / total
+            data2['emotion_angry'] = angry / total
+            data2['emotion_sad'] = sad / total
+            data2['emotion_fear'] = fear / total
+            data2['emotion_disgust'] = disgust / total
+            data2['emotion_surprise'] = surprise / total
 
             data1[i] = data2
         data[0] = data1
@@ -435,7 +450,7 @@ def recImg(request):
 
         if acc < 0.5:
             shutil.copyfile(all_path1, warning_path1)
-            WARNING_PIC.objects.create(pic_name=username1, acc=acc)
+            WARNING_PIC.objects.create(student_number=username, pic_name=username1, acc=acc)
             flag = 1
         else:
             flag = 0
@@ -476,31 +491,31 @@ def emotion(request):
             return JsonResponse(data)
         if type == 0:
             data = {'type': 'angry', 'acc': acc}
-            EMOTION.objects.create(question=question, student_number=username, emotion='angry', result=result)
+            EMOTION.objects.create(question=question, student_number=username, emotion='angry', result=result, pic_name=username1, acc=acc)
             return JsonResponse(data)
         if type == 1:
             data = {'type': 'disgust', 'acc': acc}
-            EMOTION.objects.create(question=question, student_number=username, emotion='disgust', result=result)
+            EMOTION.objects.create(question=question, student_number=username, emotion='disgust', result=result, pic_name=username1, acc=acc)
             return JsonResponse(data)
         if type == 2:
             data = {'type': 'fear', 'acc': acc}
-            EMOTION.objects.create(question=question, student_number=username, emotion='fear', result=result)
+            EMOTION.objects.create(question=question, student_number=username, emotion='fear', result=result, pic_name=username1, acc=acc)
             return JsonResponse(data)
         if type == 3:
             data = {'type': 'happy', 'acc': acc}
-            EMOTION.objects.create(question=question, student_number=username, emotion='happy', result=result)
+            EMOTION.objects.create(question=question, student_number=username, emotion='happy', result=result, pic_name=username1, acc=acc)
             return JsonResponse(data)
         if type == 4:
             data = {'type': 'sad', 'acc': acc}
-            EMOTION.objects.create(question=question, student_number=username, emotion='sad', result=result)
+            EMOTION.objects.create(question=question, student_number=username, emotion='sad', result=result, pic_name=username1, acc=acc)
             return JsonResponse(data)
         if type == 5:
             data = {'type': 'surprise', 'acc': acc}
-            EMOTION.objects.create(question=question, student_number=username, emotion='surprise', result=result)
+            EMOTION.objects.create(question=question, student_number=username, emotion='surprise', result=result, pic_name=username1, acc=acc)
             return JsonResponse(data)
         if type == 6:
             data = {'type': 'neutral', 'acc': acc}
-            EMOTION.objects.create(question=question, student_number=username, emotion='neutral', result=result)
+            EMOTION.objects.create(question=question, student_number=username, emotion='neutral', result=result, pic_name=username1, acc=acc)
             return JsonResponse(data)
 
     else:
