@@ -9,6 +9,7 @@ import cv2
 import os
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = BASE_DIR.replace('\\', '/')
 
 def load_img(path, read_num):#读取文件夹图片，文件夹名为标签
     images = []
@@ -34,7 +35,7 @@ def load_img(path, read_num):#读取文件夹图片，文件夹名为标签
 
     return images, labels, names
 
-def build_model(x_train, y_train, x_test, y_test, out_num):#模型训练
+def build_model(x_train, y_train, x_test, y_test, out_num, username):#模型训练
     model = keras.Sequential([
     keras.layers.Conv2D(
         input_shape=(x_train.shape[1],x_train.shape[2],x_train.shape[3]),
@@ -92,21 +93,26 @@ def build_model(x_train, y_train, x_test, y_test, out_num):#模型训练
     plt.plot(history.history['accuracy'], label='training')
     plt.plot(history.history['val_accuracy'], label='validation')
     plt.legend(loc='lower right')
-    plt.show()
+    # plt.show()
+    model_path = os.path.join(BASE_DIR, 'webApp/trained_model', username).replace('\\', '/')
+    pic_path = os.path.join(BASE_DIR, 'webApp/trained_model', username, 'plt.png').replace('\\', '/')
+    if not os.path.exists(model_path):
+        os.mkdir(model_path)
+    plt.savefig(pic_path)
 
 
     #测试
     evaluate_result = model.evaluate(x_test, y_test)
 
-
-    return model
+    # model, model_loss, model_acc
+    return model, history.history['loss'][49], history.history['accuracy'][49]
 
 def save_model(model, path):
     model.save(str(path) + '/trained_model.h5')
 
 
 ##################################################
-def face_train(train_folder_path, read_faces_num, train_model_save_path):#路径格式类似'C:\\Users\\LUOJ\\Desktop\\Faces'   每个文件夹读几张脸张脸   图片为jpg
+def face_train(train_folder_path, read_faces_num, train_model_save_path, username):#路径格式类似'C:\\Users\\LUOJ\\Desktop\\Faces'   每个文件夹读几张脸张脸   图片为jpg
     x_data, y_data, names = load_img(train_folder_path, read_faces_num)
     x_train, x_test, y_train, y_test = train_test_split(x_data, y_data, test_size=0.02, random_state=int(time.time()), shuffle=True)#分训练集、测试集
     out_num = len(names)#有几种标签
@@ -115,8 +121,9 @@ def face_train(train_folder_path, read_faces_num, train_model_save_path):#路径
     #print(x_test.shape, y_test.shape)
     #print(names)
     #print(out_num)
-    model = build_model(x_train, y_train, x_test, y_test, out_num)
+    model, loss, acc = build_model(x_train, y_train, x_test, y_test, out_num, username)
     save_model(model, train_model_save_path)
+    return loss, acc
 ###################################################
 
 

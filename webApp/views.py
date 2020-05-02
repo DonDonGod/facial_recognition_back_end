@@ -148,18 +148,23 @@ def student_info(request):
         exist = USER.objects.filter(student_number=username)
         data1 = {}
         if exist:
+            p = os.path.join('facial_recognition/webApp/trained_model', username, 'plt.png').replace('\\', '/')
+            p = 'http://118.178.254.65/' + p
+
             student = USER.objects.get(student_number=username)
             data1['name'] = student.username
             data1['student_number'] = student.student_number
             data1['password'] = student.password
             data1['model_loss'] = student.model_loss
             data1['model_acc'] = student.model_acc
+            data1['plt_url'] = p
         else:
             data1['name'] = 'The user does not exist'
             data1['student_number'] = 'The user does not exist'
             data1['password'] = 'The user does not exist'
             data1['model_loss'] = 'The user does not exist'
             data1['model_acc'] = 'The user does not exist'
+            data1['plt_url'] = 'The user does not exist'
         return JsonResponse(data1)
     else:
         return redirect('http://118.178.254.65')
@@ -273,7 +278,7 @@ def warning_picture(request):
             data1 = {}
             p = os.path.join('facial_recognition/media/test_predict', username, 'warning', i).replace('\\', '/')
             p = 'http://118.178.254.65/' + p
-            print(p)
+            # print(p)
             exist = WARNING_PIC.objects.filter(pic_name=i, student_number=username)
             if exist:
                 pic = WARNING_PIC.objects.get(pic_name=i, student_number=username)
@@ -445,8 +450,15 @@ def trainModel(request):
         model_path = os.path.join(BASE_DIR, 'webApp/trained_model',username).replace('\\', '/')
         if not os.path.exists(model_path):
             os.mkdir(model_path)
+        loss, acc = face_train(face_path, 100, model_path, username)
 
-        face_train(face_path, 100, model_path)
+        exist = USER.objects.filter(student_number=username)
+        if exist:
+            a = USER.objects.get(student_number=username)
+            a.model_loss = loss
+            a.model_acc = acc
+            a.save()
+
         return HttpResponse("train successfully")
     else:
         return redirect('http://118.178.254.65')

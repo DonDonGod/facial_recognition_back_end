@@ -32,7 +32,8 @@ pymysql.install_as_MySQLdb()<br>
 6.永久运行 nohup python manage.py runserver 0:8000 &<br>
 7.关闭永久运行 lsof -i:8000 找进程ID，kill -9 进程ID
 -----
-#5.1 新增：
+#5.2 新增：
+face_recognize_controller改动，返回model_loss和model_loss, 折线图存到webApp/trained_model/username/plt.png (注意是png)<br>
 1.已成功部署到云，启动方法见上(记得settings改数据库)<br>
 2.USER表多了model_loss和model_acc; EMOTION表多了pic_name和acc<br>
 3.新建WARNING_PIC表，用来存某个学生warning图片名称与其对应的准确度<br>
