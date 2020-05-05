@@ -170,6 +170,27 @@ def student_info(request):
         return redirect('http://118.178.254.65')
 
 
+# 返回本人注册照片路径
+def original_picture(request):
+    if request.method == 'POST':
+        username = request.POST.get('username', None)
+        pic_path = os.path.join(BASE_DIR, 'webApp/Faces', username, 'Client').replace('\\', '/')
+        all_list = os.listdir(pic_path)
+        data = {}
+        index = 0
+        for i in all_list:
+            if index < 10:
+                p = os.path.join('facial_recognition/webApp/Faces', username, 'Client', i).replace('\\', '/')
+                p = 'http://118.178.254.65/' + p
+                data[index] = p
+                index += 1
+            else:
+                break
+        return JsonResponse(data)
+    else:
+        return redirect('http://118.178.254.65')
+
+
 def exam_result(request):
     if request.method == 'POST':
         username = request.POST.get('username', None)
@@ -207,9 +228,57 @@ def exam_result(request):
         return redirect('http://118.178.254.65')
 
 
+# 分析考试每道题数据
+def analysis(request):
+    if request.method == 'POST':
+        data1 = {}
+        for i in [0, 1, 2, 3, 4]:
+            data2 = {}
+            true = EMOTION.objects.filter(result='true', question=i).count()
+            false = EMOTION.objects.filter(result='false', question=i).count()
+            acc = true/(true+false)
+            data2['correct'] = str(round(acc, 2)*100) + '%'
+
+            happy = EMOTION.objects.filter(emotion='happy', question=i).count()
+            neutral = EMOTION.objects.filter(emotion='neutral', question=i).count()
+            angry = EMOTION.objects.filter(emotion='angry', question=i).count()
+            sad = EMOTION.objects.filter(emotion='sad', question=i).count()
+            fear = EMOTION.objects.filter(emotion='fear', question=i).count()
+            disgust = EMOTION.objects.filter(emotion='disgust', question=i).count()
+            surprise = EMOTION.objects.filter(emotion='surprise', question=i).count()
+            total = happy + neutral + angry + sad + fear + disgust + surprise
+            data2['emotion_happy'] = str(round(happy/total, 4)*100) + '%'
+            data2['emotion_neutral'] = str(round(neutral/total, 4)*100) + '%'
+            data2['emotion_angry'] = str(round(angry/total, 4)*100) + '%'
+            data2['emotion_sad'] = str(round(sad/total, 4)*100) + '%'
+            data2['emotion_fear'] = str(round(fear/total, 4)*100) + '%'
+            data2['emotion_disgust'] = str(round(disgust/total, 4)*100) + '%'
+            data2['emotion_surprise'] = str(round(surprise/total, 4)*100) + '%'
+            data1[i] = data2
+        return JsonResponse(data1)
+    else:
+        return redirect('http://118.178.254.65')
+
+
+# 返回总体答题情况
+def overall(request):
+    if request.method == 'POST':
+        data = {}
+        total_user = USER.objects.all().count()
+        attendance = EMOTION.objects.filter(question=0).count()
+        true = EMOTION.objects.filter(result='true').count()
+        average = str(round(true/(attendance*5), 4)*100) + '%'
+        data["total_user"] = total_user
+        data["attendance"] = attendance
+        data["average_score"] = average
+        return JsonResponse(data)
+    else:
+        return redirect('http://118.178.254.65')
+
+
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
-
+# 警告算法
 # 记录警告次数及分数
 def warning(flag, username):
     exist = WARNING_LIST.objects.filter(student_number=username)
@@ -227,13 +296,16 @@ def warning(flag, username):
         print(s)
         a.save()
     else:
-        WARNING_LIST.objects.create(student_number=username, list='0')
+        if flag == 0:
+            WARNING_LIST.objects.create(student_number=username, list='0')
+        if flag == 1:
+            WARNING_LIST.objects.create(student_number=username, list='0')
 
 def warning_calculation(warn_photo_list):
 
     l = list(warn_photo_list)
     warn_photo_list = list(map(int, l))
-    print(warn_photo_list)
+    # print(warn_photo_list)
 
     score_total = 0
     warn_num = len(warn_photo_list)  # list总大小
@@ -282,35 +354,79 @@ def warning_picture(request):
             exist = WARNING_PIC.objects.filter(pic_name=i, student_number=username)
             if exist:
                 pic = WARNING_PIC.objects.get(pic_name=i, student_number=username)
-                data1['url'] = p
-                data1['acc'] = float(pic.acc)
-            else:
-                data1['url'] = p
-                data1['acc'] = 0.010101
-            data[index] = data1
-            index += 1
+                if pic.state == "not pass":
+                    data1['pic_name'] = i
+                    data1['url'] = p
+                    data1['acc'] = float(pic.acc)
+                    data1['state'] = pic.state
+                    data[index] = data1
+                    index += 1
+            # else:
+            #     data1['url'] = 'No warning pics'
+            #     data1['acc'] = 0.010101
+            #     index += 1
         return JsonResponse(data)
     else:
         return redirect('http://118.178.254.65')
 
 
-# 返回本人注册照片路径
-def original_picture(request):
+# 移除没问题的照片
+def remove_warning(request):
     if request.method == 'POST':
         username = request.POST.get('username', None)
-        pic_path = os.path.join(BASE_DIR, 'webApp/Faces', username, 'Client').replace('\\', '/')
-        all_list = os.listdir(pic_path)
-        data = {}
-        index = 0
-        for i in all_list:
-            if index < 10:
-                p = os.path.join('facial_recognition/webApp/Faces', username, 'Client', i).replace('\\', '/')
-                p = 'http://118.178.254.65/' + p
-                data[index] = p
-                index += 1
+        pic_name = request.POST.get('pic_name', None)
+        index = request.POST.get('index', None)
+        # 删除照片本体
+        # p = os.path.join('facial_recognition/media/test_predict', username, 'warning', pic_name).replace('\\', '/')
+        # p = 'http://118.178.254.65/' + p
+        # p = os.path.join(BASE_DIR, 'media/test_predict', username, 'warning', pic_name).replace('\\', '/')
+        # os.remove(p)
+
+        # 将照片的状态变成pass
+        exist2 = WARNING_PIC.objects.filter(student_number=username, pic_name=pic_name)
+        if exist2:
+            w = WARNING_PIC.objects.get(student_number=username, pic_name=pic_name)
+            w.state = 'pass'
+            w.save()
+        else:
+            print('0')
+
+        # 修改warning_list, 重新算分
+        exist1 = WARNING_LIST.objects.filter(student_number=username)
+        if exist1:
+            a = WARNING_LIST.objects.get(student_number=username)
+            wlist = a.list
+            l = list(wlist)
+            warn_list = list(map(int, l))
+            count = 0
+            x = 0
+            for i in warn_list:
+                if i == 1:
+                    count = count+1
+                    if count == int(index):
+                        break
+                x = x+1
+            warn_list[x] = 0
+            tmp = list(map(str, warn_list))
+            s = "".join(tmp)
+            a.list = s
+            a.save()
+            score = warning_calculation(a.list)
+            # 重新计算分数并上传
+            exist = WARNING.objects.filter(student_number=username)
+            if exist:
+                student = WARNING.objects.get(student_number=username)
+                time = student.times
+                time = time - 1
+                student.times = time
+                student.score = score
+                student.save()
             else:
-                break
-        return JsonResponse(data)
+                print('3')
+            return HttpResponse('Remove successfully')
+            # return JsonResponse(data)
+        else:
+            return HttpResponse('The user does not exist')
     else:
         return redirect('http://118.178.254.65')
 
@@ -344,45 +460,13 @@ def finish(request):
         else:
             WARNING.objects.create(student_number=username, times=times, score=score)
         # # 清空warning_list
-        exist1 = WARNING_LIST.objects.filter(student_number=username)
-        if exist1:
-            a = WARNING_LIST.objects.get(student_number=username)
-            a.list = '0'
-            a.save()
+        # exist1 = WARNING_LIST.objects.filter(student_number=username)
+        # if exist1:
+        #     a = WARNING_LIST.objects.get(student_number=username)
+        #     a.list = '0'
+        #     a.save()
         # warning_list.clear()
         return HttpResponse("upload warning_list successfully")
-    else:
-        return redirect('http://118.178.254.65')
-
-
-def analysis(request):
-    if request.method == 'POST':
-        data1 = {}
-        for i in [0, 1, 2, 3, 4]:
-            data2 = {}
-            true = EMOTION.objects.filter(result='true', question=i).count()
-            false = EMOTION.objects.filter(result='false', question=i).count()
-            acc = true/(true+false)
-            data2['correct'] = acc
-
-            happy = EMOTION.objects.filter(emotion='happy', question=i).count()
-            neutral = EMOTION.objects.filter(emotion='neutral', question=i).count()
-            angry = EMOTION.objects.filter(emotion='angry', question=i).count()
-            sad = EMOTION.objects.filter(emotion='sad', question=i).count()
-            fear = EMOTION.objects.filter(emotion='fear', question=i).count()
-            disgust = EMOTION.objects.filter(emotion='disgust', question=i).count()
-            surprise = EMOTION.objects.filter(emotion='surprise', question=i).count()
-            total = happy + neutral + angry + sad + fear + disgust + surprise
-            data2['emotion_happy'] = happy / total
-            data2['emotion_neutral'] = neutral / total
-            data2['emotion_angry'] = angry / total
-            data2['emotion_sad'] = sad / total
-            data2['emotion_fear'] = fear / total
-            data2['emotion_disgust'] = disgust / total
-            data2['emotion_surprise'] = surprise / total
-
-            data1[i] = data2
-        return JsonResponse(data1)
     else:
         return redirect('http://118.178.254.65')
 
@@ -458,7 +542,6 @@ def trainModel(request):
             a.model_loss = loss
             a.model_acc = acc
             a.save()
-
         return HttpResponse("train successfully")
     else:
         return redirect('http://118.178.254.65')
@@ -494,7 +577,7 @@ def recImg(request):
 
         if acc < 0.5:
             shutil.copyfile(all_path1, warning_path1)
-            WARNING_PIC.objects.create(student_number=username, pic_name=username1, acc=acc)
+            WARNING_PIC.objects.create(student_number=username, pic_name=username1, acc=acc, state='not pass')
             flag = 1
         else:
             flag = 0

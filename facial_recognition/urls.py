@@ -47,10 +47,15 @@ urlpatterns = [
     path('dashboard/origin', views.original_picture),
     # 返回warning照片
     path('dashboard/warning', views.warning_picture),
+    path('dashboard/remove', views.remove_warning),
+
+
     # 结束考试，上传数据至database
     path('dashboard/finish', views.finish),
     # 分析考试数据
     path('dashboard/analysis', views.analysis),
+    # 分析学生平均分
+    path('dashboard/overall', views.overall),
 
 
     # 将拍的图存在Faces/username/Client文件夹

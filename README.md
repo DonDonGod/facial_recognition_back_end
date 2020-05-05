@@ -26,22 +26,21 @@ pymysql.install_as_MySQLdb()<br>
 #云端启动后端
 1.Chrome浏览器修改（https://www.jianshu.com/p/751a9cb93a43）<br>
 2.进入宝塔终端（http://118.178.254.65:8888/）<br>
-3.source /www/wwwroot/backend/facial_recognition/backend_venv/bin/activate<br>
-4.cd /www/wwwroot/backend/facial_recognition<br>
+3.进入虚拟环境: source /www/wwwroot/backend/facial_recognition/backend_venv/bin/activate<br>
+4.进入项目目录: cd /www/wwwroot/backend/facial_recognition<br>
 5.python manage.py runserver 0:8000<br>
 6.永久运行 nohup python manage.py runserver 0:8000 &<br>
-7.关闭永久运行 lsof -i:8000 找进程ID，kill -9 进程ID
+7.关闭永久运行 lsof -i:8000 找进程ID; kill -9 进程ID
 -----
-#5.2 新增：
-face_recognize_controller改动，返回model_loss和model_loss, 折线图存到webApp/trained_model/username/plt.png (注意是png)<br>
-1.已成功部署到云，启动方法见上(记得settings改数据库)<br>
-2.USER表多了model_loss和model_acc; EMOTION表多了pic_name和acc<br>
-3.新建WARNING_PIC表，用来存某个学生warning图片名称与其对应的准确度<br>
-4.新增student_info方法返回学生基本信息[dashboard/student_info]: 参量(username学号)<br>
-5.新增exam_result返回某个学生考试结果及表情信息[dashboard/exam_result]参量(username学号)<br>
-6.新增analysis返回每题答题准确度与表情占比[dashboard/analysis]: 无参量<br>
-7.返回warning图片及准确度 [dashboard/warning]: 参量(username学号)<br>
-8.返回本人（注册时）图片 [dashboard/origin]: 参量(username学号)<br>
+#5.6 新增：
+1.百分号的问题我给你改了
+2.WARNING_PIC表新增state, 用来表示该照片是否通过了人工审查，没通过是not pass, 通过了是pass, 以后就不会出现在返回给前端的warning图片中(本来想着把通过了图片直接删了, 但是好像出于安全不让删, 搞到4点么办法只能想到这么解决了, 因为改了model记得本地测试运行两行代码)<br>
+3.[dashboard/warning]： 参量(username学号)；返回warning图片,准确度,图片名称,状态（新增1.返回pic_name, 方便在remove时调用，不用显示出来; 2.state用于判断是否返回这张图，如果是pass就不返回了，调用下面接口就会把state从not pass 变成pass）<br>
+4.[dashboard/remove]: 参量(username学号, index删的表中第几个图(第一张就是1，第二张就是2，注意删了第一张后刷新一下这张图就不显示了，所以原来的第二张就变成了第一张), pic_name删除图片的名字(在上一步帮你返回了, 这里拿出来用)); 移除没问题的照片并重新算分上传(后端本地照片并不能直接删，移除只是代表我不返回给你这张图的路径而已，所以要上面两步)<br>
+5.新增返回参考人数和学生平均分方法，可以放在analysis页下面[dashboard/overall]: 无参量<br>
+6.拍不够100张照片的方法我想了想, 最省事的是你写个restart按钮, 在底下写一句话: 如果等待超过30s没反应就点restart, 这个按钮调用[dashboard/check]: 参量(username学号)<br>
+7.发现个前端的bug，exam_result页没有滚轮，看不到下面的信息
+
 -----
 #基本流程：
 1.用户注册时自动拍100张照片 存在Faces里对应用户名的Client文件夹下<br>
@@ -57,7 +56,7 @@ face_recognize_controller改动，返回model_loss和model_loss, 折线图存到
 6.USER表 (username，student_number，password, model_loss, model_acc）<br>
 7.ADMIN表（username，password）<br>
 8.WARNING表（student_number，times, score）<br>
-9.WARNING_PIC表（student_number, pic_name, acc）
+9.WARNING_PIC表（student_number, pic_name, acc, state）
 
 
 

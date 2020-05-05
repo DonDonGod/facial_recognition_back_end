@@ -30,8 +30,9 @@ class WARNING(models.Model):
 
 class WARNING_PIC(models.Model):
     student_number = models.IntegerField(default='16200001')
-    pic_name = models.CharField(max_length=20)
+    pic_name = models.CharField(max_length=40)
     acc = models.FloatField(default='0.01')
+    state = models.CharField(max_length=20)
 
 class WARNING_LIST(models.Model):
     student_number = models.IntegerField(default='16200001')
