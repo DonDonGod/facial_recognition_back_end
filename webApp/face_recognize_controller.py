@@ -89,16 +89,16 @@ def build_model(x_train, y_train, x_test, y_test, out_num, username):#模型训�
     #训练
     history = model.fit(x_train, y_train, batch_size=64, epochs=50, validation_split=0.1)#一般都是0.1的验证集，但是只有一张图片就不能有验证集了
 
-    # plt.figure()
-    # plt.plot(history.history['accuracy'], label='training')
-    # plt.plot(history.history['val_accuracy'], label='validation')
-    # plt.legend(loc='lower right')
-    # # plt.show()
-    # model_path = os.path.join(BASE_DIR, 'webApp/trained_model', username).replace('\\', '/')
-    # pic_path = os.path.join(BASE_DIR, 'webApp/trained_model', username, 'plt.png').replace('\\', '/')
-    # if not os.path.exists(model_path):
-    #     os.mkdir(model_path)
-    # plt.savefig(pic_path)
+    plt.figure()
+    plt.plot(history.history['accuracy'], label='training')
+    plt.plot(history.history['val_accuracy'], label='validation')
+    plt.legend(loc='lower right')
+    # plt.show()
+    model_path = os.path.join(BASE_DIR, 'webApp/trained_model', username).replace('\\', '/')
+    pic_path = os.path.join(BASE_DIR, 'webApp/trained_model', username, 'plt.png').replace('\\', '/')
+    if not os.path.exists(model_path):
+        os.mkdir(model_path)
+    plt.savefig(pic_path)
 
 
     #测试
@@ -210,7 +210,7 @@ def face_predict(trained_model_path, face_folder_path, predict_photo_path, predi
 
     predict_photo = cv2.imread(predict_photo_path)#读取要预测的图片
 
-    predicted_photo, predict_name_accuracy = detect_face(predict_photo, model, names, 1)
+    predicted_photo, predict_name_accuracy = detect_face(predict_photo, model, names, 0)#预测图片，返回以预测的图片和最大的精确度
 
     cv2.imwrite(predicted_photo_save_path, predicted_photo)#保存画了框框的图片到保存路径
 

@@ -90,7 +90,7 @@ WSGI_APPLICATION = 'facial_recognition.wsgi.application'
 DATABASES = {
      'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'interest',
+        'NAME': 'fyp',
         'HOST': '127.0.0.1',
         'PORT': 3306,
         'USER': 'root',

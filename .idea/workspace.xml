@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a03d2299-a58b-4570-bc71-a6b96c5d253d" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/facial_recognition/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/facial_recognition/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/webApp/face_recognize_controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/webApp/face_recognize_controller.py" afterDir="false" />
-    </list>
+    <list default="true" id="a03d2299-a58b-4570-bc71-a6b96c5d253d" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -50,9 +46,6 @@
         <option value="HTML File" />
       </list>
     </option>
-  </component>
-  <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectId" id="1ZL1PNte2uL2X61iIZPvNU3NXEs" />
   <component name="ProjectViewState">
@@ -140,7 +133,8 @@
       <workItem from="1587390758704" duration="51507000" />
       <workItem from="1588059250767" duration="13415000" />
       <workItem from="1588080357686" duration="2708000" />
-      <workItem from="1588083079202" duration="54645000" />
+      <workItem from="1588083079202" duration="56859000" />
+      <workItem from="1588601902729" duration="3476000" />
     </task>
     <servers />
   </component>
@@ -164,26 +158,26 @@
       <screen x="0" y="0" width="1620" height="1040" />
     </state>
     <state x="541" y="267" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1620.1040@0.0.1620.1040" timestamp="1585746140766" />
-    <state x="996" y="275" key="FileChooserDialogImpl" timestamp="1588244820523">
+    <state x="996" y="275" key="FileChooserDialogImpl" timestamp="1588513129862">
       <screen x="0" y="0" width="1620" height="1040" />
     </state>
-    <state x="996" y="275" key="FileChooserDialogImpl/0.0.1620.1040@0.0.1620.1040" timestamp="1588244820523" />
-    <state width="767" height="277" key="GridCell.Tab.0.bottom" timestamp="1588259742599">
+    <state x="996" y="275" key="FileChooserDialogImpl/0.0.1620.1040@0.0.1620.1040" timestamp="1588513129862" />
+    <state width="767" height="277" key="GridCell.Tab.0.bottom" timestamp="1588530847495">
       <screen x="0" y="0" width="1620" height="1040" />
     </state>
-    <state width="767" height="277" key="GridCell.Tab.0.bottom/0.0.1620.1040@0.0.1620.1040" timestamp="1588259742599" />
-    <state width="767" height="277" key="GridCell.Tab.0.center" timestamp="1588259742599">
+    <state width="767" height="277" key="GridCell.Tab.0.bottom/0.0.1620.1040@0.0.1620.1040" timestamp="1588530847495" />
+    <state width="767" height="277" key="GridCell.Tab.0.center" timestamp="1588530847495">
       <screen x="0" y="0" width="1620" height="1040" />
     </state>
-    <state width="767" height="277" key="GridCell.Tab.0.center/0.0.1620.1040@0.0.1620.1040" timestamp="1588259742599" />
-    <state width="767" height="277" key="GridCell.Tab.0.left" timestamp="1588259742599">
+    <state width="767" height="277" key="GridCell.Tab.0.center/0.0.1620.1040@0.0.1620.1040" timestamp="1588530847495" />
+    <state width="767" height="277" key="GridCell.Tab.0.left" timestamp="1588530847495">
       <screen x="0" y="0" width="1620" height="1040" />
     </state>
-    <state width="767" height="277" key="GridCell.Tab.0.left/0.0.1620.1040@0.0.1620.1040" timestamp="1588259742599" />
-    <state width="767" height="277" key="GridCell.Tab.0.right" timestamp="1588259742599">
+    <state width="767" height="277" key="GridCell.Tab.0.left/0.0.1620.1040@0.0.1620.1040" timestamp="1588530847495" />
+    <state width="767" height="277" key="GridCell.Tab.0.right" timestamp="1588530847495">
       <screen x="0" y="0" width="1620" height="1040" />
     </state>
-    <state width="767" height="277" key="GridCell.Tab.0.right/0.0.1620.1040@0.0.1620.1040" timestamp="1588259742599" />
+    <state width="767" height="277" key="GridCell.Tab.0.right/0.0.1620.1040@0.0.1620.1040" timestamp="1588530847495" />
     <state width="214" height="477" key="HiddenNamespacesPopup" timestamp="1588081587699">
       <screen x="0" y="0" width="1620" height="1040" />
     </state>
@@ -192,10 +186,10 @@
       <screen x="0" y="0" width="1620" height="1040" />
     </state>
     <state x="1075" y="410" width="337" height="234" key="com.intellij.database.actions.DdlActions$DeleteProvider2$1/0.0.1620.1040@0.0.1620.1040" timestamp="1587456862069" />
-    <state x="500" y="345" key="com.intellij.ide.util.TipDialog" timestamp="1587390788794">
+    <state x="500" y="345" key="com.intellij.ide.util.TipDialog" timestamp="1588601906042">
       <screen x="0" y="0" width="1620" height="1040" />
     </state>
-    <state x="500" y="345" key="com.intellij.ide.util.TipDialog/0.0.1620.1040@0.0.1620.1040" timestamp="1587390788794" />
+    <state x="500" y="345" key="com.intellij.ide.util.TipDialog/0.0.1620.1040@0.0.1620.1040" timestamp="1588601906042" />
     <state x="6" y="193" width="637" height="801" key="find.popup" timestamp="1584607067774">
       <screen x="0" y="0" width="1620" height="1040" />
     </state>

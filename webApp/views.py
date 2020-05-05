@@ -542,6 +542,8 @@ def emotion(request):
                 a.acc = acc
                 a.pic_name = username1
                 a.result = result
+                data = {'type': 'angry', 'acc': acc}
+                return JsonResponse(data)
             else:
                 data = {'type': 'angry', 'acc': acc}
                 EMOTION.objects.create(question=question, student_number=username, emotion='angry', result=result, pic_name=username1, acc=acc)
@@ -553,6 +555,8 @@ def emotion(request):
                 a.acc = acc
                 a.pic_name = username1
                 a.result = result
+                data = {'type': 'disgust', 'acc': acc}
+                return JsonResponse(data)
             else:
                 data = {'type': 'disgust', 'acc': acc}
                 EMOTION.objects.create(question=question, student_number=username, emotion='disgust', result=result, pic_name=username1, acc=acc)
@@ -564,6 +568,8 @@ def emotion(request):
                 a.acc = acc
                 a.pic_name = username1
                 a.result = result
+                data = {'type': 'fear', 'acc': acc}
+                return JsonResponse(data)
             else:
                 data = {'type': 'fear', 'acc': acc}
                 EMOTION.objects.create(question=question, student_number=username, emotion='fear', result=result, pic_name=username1, acc=acc)
@@ -575,6 +581,8 @@ def emotion(request):
                 a.acc = acc
                 a.pic_name = username1
                 a.result = result
+                data = {'type': 'happy', 'acc': acc}
+                return JsonResponse(data)
             else:
                 data = {'type': 'happy', 'acc': acc}
                 EMOTION.objects.create(question=question, student_number=username, emotion='happy', result=result, pic_name=username1, acc=acc)
@@ -586,6 +594,8 @@ def emotion(request):
                 a.acc = acc
                 a.pic_name = username1
                 a.result = result
+                data = {'type': 'sad', 'acc': acc}
+                return JsonResponse(data)
             else:
                 data = {'type': 'sad', 'acc': acc}
                 EMOTION.objects.create(question=question, student_number=username, emotion='sad', result=result, pic_name=username1, acc=acc)
@@ -597,6 +607,8 @@ def emotion(request):
                 a.acc = acc
                 a.pic_name = username1
                 a.result = result
+                data = {'type': 'surprise', 'acc': acc}
+                return JsonResponse(data)
             else:
                 data = {'type': 'surprise', 'acc': acc}
                 EMOTION.objects.create(question=question, student_number=username, emotion='surprise', result=result, pic_name=username1, acc=acc)
@@ -608,6 +620,8 @@ def emotion(request):
                 a.acc = acc
                 a.pic_name = username1
                 a.result = result
+                data = {'type': 'neutral', 'acc': acc}
+                return JsonResponse(data)
             else:
                 data = {'type': 'neutral', 'acc': acc}
                 EMOTION.objects.create(question=question, student_number=username, emotion='neutral', result=result, pic_name=username1, acc=acc)
