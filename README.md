@@ -39,7 +39,6 @@ pymysql.install_as_MySQLdb()<br>
 4.[dashboard/remove]: 参量(username学号, index删的表中第几个图(第一张就是1，第二张就是2，注意删了第一张后刷新一下这张图就不显示了，所以原来的第二张就变成了第一张), pic_name删除图片的名字(在上一步帮你返回了, 这里拿出来用)); 移除没问题的照片并重新算分上传(后端本地照片并不能直接删，移除只是代表我不返回给你这张图的路径而已，所以要上面两步)<br>
 5.新增返回参考人数和学生平均分方法，可以放在analysis页下面[dashboard/overall]: 无参量<br>
 6.拍不够100张照片的方法我想了想, 最省事的是你写个restart按钮, 在底下写一句话: 如果等待超过30s没反应就点restart, 这个按钮调用[dashboard/check]: 参量(username学号)<br>
-7.发现个前端的bug，exam_result页没有滚轮，看不到下面的信息
 
 -----
 #基本流程：
@@ -58,6 +57,8 @@ pymysql.install_as_MySQLdb()<br>
 8.WARNING表（student_number，times, score）<br>
 9.WARNING_PIC表（student_number, pic_name, acc, state）
 
+#本地路径更改
+150, 186, 335
 
 
 

@@ -148,8 +148,9 @@ def student_info(request):
         exist = USER.objects.filter(student_number=username)
         data1 = {}
         if exist:
-            p = os.path.join('facial_recognition/webApp/trained_model', username, 'plt.png').replace('\\', '/')
-            p = 'http://118.178.254.65/' + p
+            # p = os.path.join('facial_recognition/webApp/trained_model', username, 'plt.png').replace('\\', '/')
+            # p = 'http://118.178.254.65/' + p
+            p = os.path.join(BASE_DIR, 'webApp/trained_model', username, 'plt.png').replace('\\', '/')
 
             student = USER.objects.get(student_number=username)
             data1['name'] = student.username
@@ -180,8 +181,9 @@ def original_picture(request):
         index = 0
         for i in all_list:
             if index < 10:
-                p = os.path.join('facial_recognition/webApp/Faces', username, 'Client', i).replace('\\', '/')
-                p = 'http://118.178.254.65/' + p
+                # p = os.path.join('facial_recognition/webApp/Faces', username, 'Client', i).replace('\\', '/')
+                # p = 'http://118.178.254.65/' + p
+                p = os.path.join(BASE_DIR, 'webApp/Faces', username, 'Client', i).replace('\\', '/')
                 data[index] = p
                 index += 1
             else:
@@ -299,7 +301,7 @@ def warning(flag, username):
         if flag == 0:
             WARNING_LIST.objects.create(student_number=username, list='0')
         if flag == 1:
-            WARNING_LIST.objects.create(student_number=username, list='0')
+            WARNING_LIST.objects.create(student_number=username, list='1')
 
 def warning_calculation(warn_photo_list):
 
@@ -348,8 +350,9 @@ def warning_picture(request):
         index = 0
         for i in all_list:
             data1 = {}
-            p = os.path.join('facial_recognition/media/test_predict', username, 'warning', i).replace('\\', '/')
-            p = 'http://118.178.254.65/' + p
+            # p = os.path.join('facial_recognition/media/test_predict', username, 'warning', i).replace('\\', '/')
+            # p = 'http://118.178.254.65/' + p
+            p = os.path.join(BASE_DIR, 'media/test_predict', username, 'warning', i).replace('\\', '/')
             # print(p)
             exist = WARNING_PIC.objects.filter(pic_name=i, student_number=username)
             if exist:
