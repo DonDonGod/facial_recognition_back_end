@@ -5,7 +5,6 @@ import os
 import json
 import shutil
 
-
 from webApp.models import USER
 from webApp.models import ADMIN
 from webApp.models import EMOTION
@@ -24,6 +23,7 @@ from django.views.decorators.csrf import csrf_exempt
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_DIR = BASE_DIR.replace('\\', '/')
 # warning_list = []
+failed = []
 
 # Create your views here.
 def homePage(request):
@@ -434,6 +434,21 @@ def remove_warning(request):
         return redirect('http://118.178.254.65')
 
 
+# 下一题之前检查数据是否录入
+def next(request):
+    if request.method == 'POST':
+        username = request.POST.get('username', None)
+        question = request.POST.get('question', None)
+        exist = EMOTION.objects.filter(student_number=username, question=question)
+        if exist:
+            return HttpResponse("1")
+        else:
+            return HttpResponse("0")
+
+    else:
+        return redirect('http://118.178.254.65')
+
+
 # 结束考试，上传警告信息
 def finish(request):
     if request.method == 'POST':
@@ -508,6 +523,8 @@ def setFace(request):
             flag = deal_face(file, file)
         # 没有人别出人脸将其删除 (1:成功识别人脸; 0:未检测出人脸)
         if flag == 0:
+            failed.append(username1)
+            print(failed)
             os.remove(file)
 
         # 返回当前Client文件夹下有多少张有效图片
@@ -526,6 +543,7 @@ def check(request):
         for i in all_list:
             file = os.path.join(BASE_DIR, 'webApp/Faces/', username, 'Client/', i).replace('\\', '/')
             os.remove(file)
+    failed.clear()
     return HttpResponse(size)
 
 
@@ -628,7 +646,8 @@ def emotion(request):
                 a.acc = acc
                 a.pic_name = username1
                 a.result = result
-                data = {'type': 'angry', 'acc': acc}
+                a.save()
+                data = {'type': 'angry', 'acc': acc, 'pic_name': username1}
                 return JsonResponse(data)
             else:
                 data = {'type': 'angry', 'acc': acc}
@@ -641,10 +660,11 @@ def emotion(request):
                 a.acc = acc
                 a.pic_name = username1
                 a.result = result
+                a.save()
                 data = {'type': 'disgust', 'acc': acc}
                 return JsonResponse(data)
             else:
-                data = {'type': 'disgust', 'acc': acc}
+                data = {'type': 'disgust', 'acc': acc, 'pic_name': username1}
                 EMOTION.objects.create(question=question, student_number=username, emotion='disgust', result=result, pic_name=username1, acc=acc)
                 return JsonResponse(data)
         if type == 2:
@@ -654,7 +674,8 @@ def emotion(request):
                 a.acc = acc
                 a.pic_name = username1
                 a.result = result
-                data = {'type': 'fear', 'acc': acc}
+                a.save()
+                data = {'type': 'fear', 'acc': acc, 'pic_name': username1}
                 return JsonResponse(data)
             else:
                 data = {'type': 'fear', 'acc': acc}
@@ -667,7 +688,8 @@ def emotion(request):
                 a.acc = acc
                 a.pic_name = username1
                 a.result = result
-                data = {'type': 'happy', 'acc': acc}
+                a.save()
+                data = {'type': 'happy', 'acc': acc, 'pic_name': username1}
                 return JsonResponse(data)
             else:
                 data = {'type': 'happy', 'acc': acc}
@@ -680,7 +702,8 @@ def emotion(request):
                 a.acc = acc
                 a.pic_name = username1
                 a.result = result
-                data = {'type': 'sad', 'acc': acc}
+                a.save()
+                data = {'type': 'sad', 'acc': acc, 'pic_name': username1}
                 return JsonResponse(data)
             else:
                 data = {'type': 'sad', 'acc': acc}
@@ -693,7 +716,8 @@ def emotion(request):
                 a.acc = acc
                 a.pic_name = username1
                 a.result = result
-                data = {'type': 'surprise', 'acc': acc}
+                a.save()
+                data = {'type': 'surprise', 'acc': acc, 'pic_name': username1}
                 return JsonResponse(data)
             else:
                 data = {'type': 'surprise', 'acc': acc}
@@ -706,7 +730,8 @@ def emotion(request):
                 a.acc = acc
                 a.pic_name = username1
                 a.result = result
-                data = {'type': 'neutral', 'acc': acc}
+                a.save()
+                data = {'type': 'neutral', 'acc': acc, 'pic_name': username1}
                 return JsonResponse(data)
             else:
                 data = {'type': 'neutral', 'acc': acc}

@@ -38,6 +38,7 @@
     <select />
   </component>
   <component name="DjangoConsoleOptions" custom-start-script="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)">
+    <option name="useSoftWraps" value="true" />
     <option name="myCustomStartScript" value="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)" />
   </component>
   <component name="FileTemplateManagerImpl">
@@ -134,7 +135,7 @@
       <workItem from="1588059250767" duration="13415000" />
       <workItem from="1588080357686" duration="2708000" />
       <workItem from="1588083079202" duration="56859000" />
-      <workItem from="1588601902729" duration="33436000" />
+      <workItem from="1588601902729" duration="65598000" />
     </task>
     <servers />
   </component>
@@ -158,10 +159,14 @@
       <screen x="0" y="0" width="1620" height="1040" />
     </state>
     <state x="541" y="267" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1620.1040@0.0.1620.1040" timestamp="1585746140766" />
-    <state x="996" y="275" key="FileChooserDialogImpl" timestamp="1588739700641">
+    <state x="93" y="93" width="1433" height="853" key="DiffContextDialog" timestamp="1589137953439">
       <screen x="0" y="0" width="1620" height="1040" />
     </state>
-    <state x="996" y="275" key="FileChooserDialogImpl/0.0.1620.1040@0.0.1620.1040" timestamp="1588739700641" />
+    <state x="93" y="93" width="1433" height="853" key="DiffContextDialog/0.0.1620.1040@0.0.1620.1040" timestamp="1589137953439" />
+    <state x="996" y="275" key="FileChooserDialogImpl" timestamp="1589138450122">
+      <screen x="0" y="0" width="1620" height="1040" />
+    </state>
+    <state x="996" y="275" key="FileChooserDialogImpl/0.0.1620.1040@0.0.1620.1040" timestamp="1589138450122" />
     <state width="767" height="277" key="GridCell.Tab.0.bottom" timestamp="1588530847495">
       <screen x="0" y="0" width="1620" height="1040" />
     </state>
@@ -198,9 +203,9 @@
       <screen x="0" y="0" width="1620" height="1040" />
     </state>
     <state x="6" y="193" width="637" height="801" key="find.popup/0.0.1620.1040@0.0.1620.1040" timestamp="1584607067774" />
-    <state x="885" y="232" width="672" height="678" key="search.everywhere.popup" timestamp="1588699447178">
+    <state x="887" y="234" width="672" height="678" key="search.everywhere.popup" timestamp="1589137908045">
       <screen x="0" y="0" width="1620" height="1040" />
     </state>
-    <state x="885" y="232" width="672" height="678" key="search.everywhere.popup/0.0.1620.1040@0.0.1620.1040" timestamp="1588699447178" />
+    <state x="887" y="234" width="672" height="678" key="search.everywhere.popup/0.0.1620.1040@0.0.1620.1040" timestamp="1589137908045" />
   </component>
 </project>

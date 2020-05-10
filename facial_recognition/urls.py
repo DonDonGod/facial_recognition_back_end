@@ -68,6 +68,8 @@ urlpatterns = [
     path('dashboard/rec', views.recImg),
     # 表情识别
     path('dashboard/emotion', views.emotion),
+    # 检查是否可以下一题
+    path('dashboard/next', views.next),
 
     # 处理PYTHON代码
     path('dashboard/ide', views.ide),

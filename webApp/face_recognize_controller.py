@@ -93,6 +93,8 @@ def build_model(x_train, y_train, x_test, y_test, out_num, username):#模型训�
     plt.plot(history.history['accuracy'], label='training')
     plt.plot(history.history['val_accuracy'], label='validation')
     plt.legend(loc='lower right')
+    plt.xlabel('Training Times', fontsize=10)  # x标签
+    plt.ylabel('Model Accuracy', fontsize=10)  # y标签
     # plt.show()
     model_path = os.path.join(BASE_DIR, 'webApp/trained_model', username).replace('\\', '/')
     pic_path = os.path.join(BASE_DIR, 'webApp/trained_model', username, 'plt.png').replace('\\', '/')
