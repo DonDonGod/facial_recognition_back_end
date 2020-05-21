@@ -33,8 +33,12 @@ urlpatterns = [
     # 删除用户
     path('dashboard/delete_user', views.deleteUser),
 
+
     # 登录
     path('dashboard/login', views.login),
+    # 注册100张图，将拍的图存在Faces/username/Client文件夹
+    path('dashboard/set', views.setFace),
+
 
     # 返回全部学生
     path('dashboard/student_list', views.student_list),
@@ -42,6 +46,7 @@ urlpatterns = [
     path('dashboard/student_info', views.student_info),
     # 返回某个学生考试及表情信息
     path('dashboard/exam_result', views.exam_result),
+
 
     # 返回本人正常图片
     path('dashboard/origin', views.original_picture),
@@ -58,10 +63,6 @@ urlpatterns = [
     path('dashboard/overall', views.overall),
 
 
-    # 将拍的图存在Faces/username/Client文件夹
-    path('dashboard/set', views.setFace),
-    # 检查Client里是否有100张图 如果小于100清空文件夹
-    path('dashboard/check', views.check),
     # 训练模型
     path('dashboard/train', views.trainModel),
     # 识别图片
@@ -73,6 +74,7 @@ urlpatterns = [
 
     # 处理PYTHON代码
     path('dashboard/ide', views.ide),
+
 
     # 删除全部数据
     path('dashboard/delUser', views.delAllUser),

@@ -23,7 +23,6 @@ from django.views.decorators.csrf import csrf_exempt
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_DIR = BASE_DIR.replace('\\', '/')
 # warning_list = []
-failed = []
 
 # Create your views here.
 def homePage(request):
@@ -35,7 +34,7 @@ def dashboard(request):
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
-# 数据库操作
+# Add a user
 def addUser(request):
     if request.method == 'POST':
         b = request.POST.get('username', None)
@@ -83,19 +82,24 @@ def deleteUser(request):
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
-# 登录
+# Login
 def login(request):
     if request.method == 'POST':
         admin = request.POST.get('admin', None)
         username = request.POST.get('username', None)
         password = request.POST.get('password', None)
+
         if admin == '0':
             exist = USER.objects.filter(student_number=username)
             if exist:
                 user = USER.objects.get(student_number=username)
                 p = user.password
                 if password == p:
-                    return HttpResponse('Login successfully')
+                    path = os.path.join(BASE_DIR, 'webApp/trained_model', username, 'trained_model.h5').replace('\\', '/')
+                    if os.path.exists(path):
+                        return HttpResponse('Login successfully with model')
+                    else:
+                        return HttpResponse('Login successfully without model')
                 else:
                     return HttpResponse('Wrong username or password')
             else:
@@ -115,7 +119,7 @@ def login(request):
         return redirect('http://118.178.254.65')
 
 
-# 返回所有学生的信息
+# Return all student information
 def student_list(request):
     if request.method == 'POST':
         data = {}
@@ -148,8 +152,11 @@ def student_info(request):
         exist = USER.objects.filter(student_number=username)
         data1 = {}
         if exist:
+            # Use this for cloud deployment
             # p = os.path.join('facial_recognition/webApp/trained_model', username, 'plt.png').replace('\\', '/')
             # p = 'http://118.178.254.65/' + p
+
+            # Use this local test
             p = os.path.join(BASE_DIR, 'webApp/trained_model', username, 'plt.png').replace('\\', '/')
 
             student = USER.objects.get(student_number=username)
@@ -171,7 +178,7 @@ def student_info(request):
         return redirect('http://118.178.254.65')
 
 
-# 返回本人注册照片路径
+# Return the sample photo path
 def original_picture(request):
     if request.method == 'POST':
         username = request.POST.get('username', None)
@@ -181,8 +188,11 @@ def original_picture(request):
         index = 0
         for i in all_list:
             if index < 10:
+                # Use this for cloud deployment
                 # p = os.path.join('facial_recognition/webApp/Faces', username, 'Client', i).replace('\\', '/')
                 # p = 'http://118.178.254.65/' + p
+
+                # Use this for local test
                 p = os.path.join(BASE_DIR, 'webApp/Faces', username, 'Client', i).replace('\\', '/')
                 data[index] = p
                 index += 1
@@ -230,7 +240,6 @@ def exam_result(request):
         return redirect('http://118.178.254.65')
 
 
-# 分析考试每道题数据
 def analysis(request):
     if request.method == 'POST':
         data1 = {}
@@ -262,7 +271,6 @@ def analysis(request):
         return redirect('http://118.178.254.65')
 
 
-# 返回总体答题情况
 def overall(request):
     if request.method == 'POST':
         data = {}
@@ -280,8 +288,8 @@ def overall(request):
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
-# 警告算法
-# 记录警告次数及分数
+# Warning Algorithm
+# Record warning times and warning score
 def warning(flag, username):
     exist = WARNING_LIST.objects.filter(student_number=username)
     if exist:
@@ -303,6 +311,8 @@ def warning(flag, username):
         if flag == 1:
             WARNING_LIST.objects.create(student_number=username, list='1')
 
+
+# Calculate the warning scores
 def warning_calculation(warn_photo_list):
 
     l = list(warn_photo_list)
@@ -340,7 +350,7 @@ def warning_calculation(warn_photo_list):
     # 当作弊嫌疑达到50%时，请人工查看拍摄图片
 
 
-# 返回warning照片路径
+# Return the warning picture paths
 def warning_picture(request):
     if request.method == 'POST':
         username = request.POST.get('username', None)
@@ -350,10 +360,12 @@ def warning_picture(request):
         index = 0
         for i in all_list:
             data1 = {}
+            # Use this for cloud deployment
             # p = os.path.join('facial_recognition/media/test_predict', username, 'warning', i).replace('\\', '/')
             # p = 'http://118.178.254.65/' + p
+
+            # Use this for local test
             p = os.path.join(BASE_DIR, 'media/test_predict', username, 'warning', i).replace('\\', '/')
-            # print(p)
             exist = WARNING_PIC.objects.filter(pic_name=i, student_number=username)
             if exist:
                 pic = WARNING_PIC.objects.get(pic_name=i, student_number=username)
@@ -373,7 +385,7 @@ def warning_picture(request):
         return redirect('http://118.178.254.65')
 
 
-# 移除没问题的照片
+# Pass the OK pictures
 def remove_warning(request):
     if request.method == 'POST':
         username = request.POST.get('username', None)
@@ -434,7 +446,7 @@ def remove_warning(request):
         return redirect('http://118.178.254.65')
 
 
-# 下一题之前检查数据是否录入
+# Check if the data is entered before the next question
 def next(request):
     if request.method == 'POST':
         username = request.POST.get('username', None)
@@ -449,7 +461,7 @@ def next(request):
         return redirect('http://118.178.254.65')
 
 
-# 结束考试，上传警告信息
+# End the exam and upload the information
 def finish(request):
     if request.method == 'POST':
         username = request.POST.get('username', None)
@@ -467,7 +479,6 @@ def finish(request):
             score = 1
         print('times: ', times)
         print('score: ', score)
-
         # 上传数据库
         exist = WARNING.objects.filter(student_number=username)
         if exist:
@@ -491,13 +502,14 @@ def finish(request):
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
-# 主要算法
+# Recognition Algorithm
 # 将img里的图片根据username移动到Faces文件夹里(东哥算法)
 def setFace(request):
     if request.method == 'POST':
         file_obj = request.FILES.get('face', None)
         username = request.POST.get('username', None)
         username1 = file_obj.name
+
         userface = os.path.join(BASE_DIR, 'webApp/Faces/',username).replace('\\', '/')
         otherpath = os.path.join(BASE_DIR, 'webApp/Faces/',username, 'Other').replace('\\', '/')
         clientpath = os.path.join(BASE_DIR, 'webApp/Faces/',username, 'Client').replace('\\', '/')
@@ -523,19 +535,23 @@ def setFace(request):
             flag = deal_face(file, file)
         # 没有人别出人脸将其删除 (1:成功识别人脸; 0:未检测出人脸)
         if flag == 0:
-            failed.append(username1)
-            print(failed)
             os.remove(file)
 
-        # 返回当前Client文件夹下有多少张有效图片
-        list = os.listdir(clientpath)
-        size = len(list)
-        return HttpResponse(size)
+        if username1 == "99.jpg":
+            if check(username) == 0:
+                return HttpResponse("Restart")
+            elif check(username) == 100:
+                return HttpResponse(100)
+
+        elif username1 != "99.jpg":
+            # 返回当前Client文件夹下有多少张有效图片
+            list = os.listdir(clientpath)
+            size = len(list)
+            return HttpResponse(size)
 
 
-# 检查Client文件夹里是否有100张照片 如果小于100清空文件夹
-def check(request):
-    username = request.POST.get('username', None)
+# Check if there are 100 photos in the Client folder. If less than 100, clear the folder
+def check(username):
     clientpath = os.path.join(BASE_DIR, 'webApp/Faces/', username, 'Client').replace('\\', '/')
     all_list = os.listdir(clientpath)
     size = len(all_list)
@@ -543,11 +559,13 @@ def check(request):
         for i in all_list:
             file = os.path.join(BASE_DIR, 'webApp/Faces/', username, 'Client/', i).replace('\\', '/')
             os.remove(file)
-    failed.clear()
-    return HttpResponse(size)
+        return 0
+    else:
+        print("100 good pictures")
+        return 100
 
 
-# 模型训练(每次有新的用户注册就要训练)
+# Train the model
 def trainModel(request):
     if request.method == 'POST':
         username = request.POST.get('username', None)
@@ -568,7 +586,7 @@ def trainModel(request):
         return redirect('http://118.178.254.65')
 
 
-# 人脸识别算法2.0
+# Facial recognition algorithm
 def recImg(request):
     if request.method == 'POST':
         file_obj = request.FILES.get('face', None)
@@ -609,7 +627,7 @@ def recImg(request):
         return redirect('http://118.178.254.65')
 
 
-# 表情识别算法
+# Emotion recognition algorithm
 def emotion(request):
     if request.method == 'POST':
         username = request.POST.get('username', None)
@@ -743,7 +761,7 @@ def emotion(request):
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
-# 在线ide处理
+# IDE
 def run_code(code):
     try:
         output = subprocess.check_output(['python', '-c', code],
@@ -768,7 +786,7 @@ def ide(request):
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
-# 删除所有数据(清表)
+# Clear the tables in the database
 def delAllUser(request):
     USER.objects.all().delete()
     return HttpResponse('All users are deleted')

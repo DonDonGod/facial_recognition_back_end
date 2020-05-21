@@ -50,8 +50,8 @@ def detect_face(img, model):
         
         label_predict = model.predict(img_predict)  #预测
         max_possible = np.argmax(label_predict[0])  #预测结果的最大值的index
-        
-        
+        # max_possible = 1
+
         #print(label_predict)
         
         if max_possible == 0:

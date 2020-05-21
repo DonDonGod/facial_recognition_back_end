@@ -86,7 +86,7 @@ WSGI_APPLICATION = 'facial_recognition.wsgi.application'
 #     }
 # }
 
-# 本地测试
+# LOCAL TEST
 DATABASES = {
      'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -98,7 +98,7 @@ DATABASES = {
     }
 }
 
-# 云上部署
+# CLOUD DEPLOYMENT
 # DATABASES = {
 #      'default': {
 #         'ENGINE': 'django.db.backends.mysql',
